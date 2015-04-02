@@ -38,7 +38,7 @@ import java.util.List;
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
  */
-public class MapsFragment extends Fragment implements OnMapReadyCallback {
+public class MapsFragment extends Fragment implements OnMapReadyCallback{
 
     private LocationManager locationManager;
     private LocationListener locationListener;
@@ -55,6 +55,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private TextView infoWindowTitle = null;
     private ButtonFlat infoWindowButton = null;
     private View mapLayout = null;
+    private List<MarkerDetails> markerDetailsList = null;
+
     public MapsFragment() {
         // Required empty public constructor
 
@@ -121,7 +123,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 // Getting view from the layout file info_window_layout
 
 
-
                 // Getting reference to the TextView to set title
                 TextView note = infoWindowTitle;
 
@@ -134,7 +135,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
                         Log.d("MapsFragment", "Button on click listener ");
-                        mainActivity.startActivity(new Intent(mainActivity, StopDetailsActivity.class));
+                        Intent stopDetailsActivity = new Intent(mainActivity, StopDetailsActivity.class);
+                        Bundle b = new Bundle();
+                        b.putString("stopName", marker.getTitle()); //Your id
+                        stopDetailsActivity.putExtras(b); //Put your id to your next Intent
+                        startActivity(stopDetailsActivity);
+
+
                         mainActivity.overridePendingTransition(R.anim.activity_animation, R.anim.activity_animation2);
                     }
                 });
@@ -147,11 +154,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         });
 
 
-
-        ShowStops stops = new ShowStops(mMap);
+        ShowStops showStops = new ShowStops(mMap);
         try {
             List<Stop> list = readJsonStream(stopsIS);
-            stops.execute(list);
+            showStops.execute(list);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -186,9 +192,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-
-
-
     public List readJsonStream(InputStream in) throws IOException {
         JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
         try {
@@ -199,7 +202,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public List readStopsObject(JsonReader reader) throws IOException {
-       List stops = new ArrayList();
+        List stops = new ArrayList();
         reader.beginObject();
         while (reader.hasNext()) {
             String objName = reader.nextName();

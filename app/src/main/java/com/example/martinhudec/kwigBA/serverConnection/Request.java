@@ -1,9 +1,12 @@
 package com.example.martinhudec.kwigBA.serverConnection;
 
+import android.app.Activity;
 import android.net.Network;
 import android.os.Build;
 import android.util.Log;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.apache.http.HttpResponse;
@@ -33,10 +36,14 @@ public class Request {
     String requestUrl = null;
     JSONObject requestedJSONObject = null;
 
-    public Request(String requestUrl) {
+    public Request(String requestUrl, Activity activity) {
 
 
         this.requestUrl = requestUrl;
+
+
+
+
 
         try {
             URL url = new URL("http://bpbp.ctrgn.net/api" + requestUrl);

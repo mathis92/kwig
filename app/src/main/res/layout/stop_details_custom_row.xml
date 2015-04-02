@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="40dp"
+    android:elevation="15dp"
     android:id="@+id/stop_custom_row">
 
     <ImageView
         android:id="@+id/stop_custom_row_route_icon"
-        android:layout_width="48dp"
+        android:layout_width="35dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:src="@drawable/bus_icon"
@@ -16,6 +17,20 @@
         android:gravity="center"
         android:layout_marginRight="16dp"
         android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/stop_custom_row_route_id"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:elevation="15dp"
+        android:gravity="center"
+        android:layout_gravity="center_vertical"
+        android:text="39 "
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="0dp"
+        />
 
     <TextView
         android:id="@+id/stop_custom_row_route_heading_to"
@@ -41,13 +56,13 @@
             android:layout_gravity="right"
             android:text="DUMMY "
             android:id="@+id/stop_custom_row_route_arrival_time" />
+
         <TextView
             android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/stop_custom_row_route_delay"
-            android:text="15min"
-            />
+            android:text="15min" />
     </LinearLayout>
 
 </LinearLayout>

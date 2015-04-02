@@ -5,7 +5,10 @@ package com.example.martinhudec.kwigBA.stopDetail;
  */
 public class RouteDetail {
     String headingTo;
-    Integer vehicleShortName;
+    String vehicleId;
+    Integer vehicleTypeIcon;
     String delay;
     String arrivalTime;
+
+
 }

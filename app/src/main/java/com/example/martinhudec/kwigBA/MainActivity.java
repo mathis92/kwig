@@ -1,6 +1,7 @@
 package com.example.martinhudec.kwigBA;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.martinhudec.kwigBA.map.MapsFragment;
+import com.example.martinhudec.kwigBA.nearStops.NearFragment;
 import com.example.martinhudec.kwigBA.stopDetail.StopDetailsActivity;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -142,7 +144,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                     break;
                 }
                 case 1: {
-                    fragment = MyFragment.getInstance(position);
+                    fragment = NearFragment.getInstance(position);
                     break;
                 }
                 case 2: {

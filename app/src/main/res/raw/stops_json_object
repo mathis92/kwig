@@ -15,7 +15,7 @@
         },
         {
             "GtfsStopsId":"000000000400001",
-            "name":"Vozov?a Hrobo?ova",
+            "name":"Vozovňa Hroboňova",
             "lat":48.159782409668,
             "lon":17.0863361358643
         },
@@ -69,7 +69,7 @@
         },
         {
             "GtfsStopsId":"000000001400001",
-            "name":"Rybni?ná",
+            "name":"Rybničná",
             "lat":48.2191696166992,
             "lon":17.1819896697998
         },
@@ -81,7 +81,7 @@
         },
         {
             "GtfsStopsId":"000000001600001",
-            "name":"Bo?ná",
+            "name":"Bočná",
             "lat":48.175407409668,
             "lon":17.1705379486084
         },
@@ -117,7 +117,7 @@
         },
         {
             "GtfsStopsId":"000000002200001",
-            "name":"Bradá?ova",
+            "name":"Bradáčova",
             "lat":48.114185333252,
             "lon":17.1125144958496
         },
@@ -171,7 +171,7 @@
         },
         {
             "GtfsStopsId":"000000003200001",
-            "name":"Cintorín Vraku?a",
+            "name":"Cintorín Vrakuňa",
             "lat":48.1437034606934,
             "lon":17.1907596588135
         },
@@ -189,61 +189,61 @@
         },
         {
             "GtfsStopsId":"000000003500001",
-            "name":"?achtická",
+            "name":"Čachtická",
             "lat":48.2111396789551,
             "lon":17.1556129455566
         },
         {
             "GtfsStopsId":"000000003600001",
-            "name":"?ernockého",
+            "name":"Černockého",
             "lat":48.2001571655273,
             "lon":17.1478385925293
         },
         {
             "GtfsStopsId":"000000003800001",
-            "name":"?ervený kríž",
+            "name":"Červený kríž",
             "lat":48.1496162414551,
             "lon":17.0902309417725
         },
         {
             "GtfsStopsId":"000000003900001",
-            "name":"?ierna voda",
+            "name":"Čierna voda",
             "lat":48.2234115600586,
             "lon":17.2309761047363
         },
         {
             "GtfsStopsId":"000000004000001",
-            "name":"?. Voda, Vajnorská",
+            "name":"\"Č. Voda",
             "lat":48.2184448242188,
             "lon":17.2293529510498
         },
         {
             "GtfsStopsId":"000000004100001",
-            "name":"?ierny chodník",
+            "name":"Čierny chodník",
             "lat":48.2022247314453,
             "lon":17.2038383483887
         },
         {
             "GtfsStopsId":"000000004200001",
-            "name":"?iližská",
+            "name":"Čiližská",
             "lat":48.1444931030273,
             "lon":17.2123203277588
         },
         {
             "GtfsStopsId":"000000004300001",
-            "name":"?OV-Dev. Nová Ves",
+            "name":"ČOV-Dev. Nová Ves",
             "lat":48.221248626709,
             "lon":17.0058498382568
         },
         {
             "GtfsStopsId":"000000004400001",
-            "name":"?OV Vl?ie hrdlo",
+            "name":"ČOV Vlčie hrdlo",
             "lat":48.112865447998,
             "lon":17.1658420562744
         },
         {
             "GtfsStopsId":"000000004500001",
-            "name":"?remchová",
+            "name":"Čremchová",
             "lat":48.1682434082031,
             "lon":17.1115550994873
         },
@@ -255,25 +255,25 @@
         },
         {
             "GtfsStopsId":"000000004700001",
-            "name":"?unovo",
+            "name":"Čunovo",
             "lat":48.0341033935547,
             "lon":17.1958503723145
         },
         {
             "GtfsStopsId":"000000004800001",
-            "name":"MiÚ ?unovo",
+            "name":"MiÚ Čunovo",
             "lat":48.0274276733398,
             "lon":17.1967849731445
         },
         {
             "GtfsStopsId":"000000004900001",
-            "name":"?unovo-námestie",
+            "name":"Čunovo-námestie",
             "lat":48.0310821533203,
             "lon":17.1995620727539
         },
         {
             "GtfsStopsId":"000000005000001",
-            "name":"?unovské jazerá",
+            "name":"Čunovské jazerá",
             "lat":48.0328941345215,
             "lon":17.1656017303467
         },
@@ -327,25 +327,25 @@
         },
         {
             "GtfsStopsId":"000000005900001",
-            "name":"Diev?í hrádok",
+            "name":"Dievčí hrádok",
             "lat":48.2287979125977,
             "lon":17.0325183868408
         },
         {
             "GtfsStopsId":"000000006000001",
-            "name":"Dolné Kr?ace",
+            "name":"Dolné Krčace",
             "lat":48.1703300476074,
             "lon":17.0493850708008
         },
         {
             "GtfsStopsId":"000000006100001",
-            "name":"Vozov?a Petržalka",
+            "name":"Vozovňa Petržalka",
             "lat":48.098991394043,
             "lon":17.1254024505615
         },
         {
             "GtfsStopsId":"000000006200001",
-            "name":"Kop?any",
+            "name":"Kopčany",
             "lat":48.1133842468262,
             "lon":17.0875015258789
         },
@@ -369,7 +369,7 @@
         },
         {
             "GtfsStopsId":"000000006700001",
-            "name":"Drie?ová",
+            "name":"Drieňová",
             "lat":48.1587753295898,
             "lon":17.1433925628662
         },
@@ -465,7 +465,7 @@
         },
         {
             "GtfsStopsId":"000000008500001",
-            "name":"Hájov?a",
+            "name":"Hájovňa",
             "lat":48.1528129577637,
             "lon":17.0239486694336
         },
@@ -489,7 +489,7 @@
         },
         {
             "GtfsStopsId":"000000008900001",
-            "name":"Hany Meli?kovej",
+            "name":"Hany Meličkovej",
             "lat":48.1495590209961,
             "lon":17.0537109375
         },
@@ -501,7 +501,7 @@
         },
         {
             "GtfsStopsId":"000000009100001",
-            "name":"He?kova",
+            "name":"Hečkova",
             "lat":48.2030830383301,
             "lon":17.1496524810791
         },
@@ -531,7 +531,7 @@
         },
         {
             "GtfsStopsId":"000000009600001",
-            "name":"Holí?ska",
+            "name":"Holíčska",
             "lat":48.1073188781738,
             "lon":17.1031303405762
         },
@@ -543,7 +543,7 @@
         },
         {
             "GtfsStopsId":"000000009800001",
-            "name":"Horné Kr?ace",
+            "name":"Horné Krčace",
             "lat":48.1740951538086,
             "lon":17.0489349365234
         },
@@ -573,7 +573,7 @@
         },
         {
             "GtfsStopsId":"000000010400001",
-            "name":"Hrani?ná-OC RETRO",
+            "name":"Hraničná-OC RETRO",
             "lat":48.1498565673828,
             "lon":17.1589393615723
         },
@@ -585,7 +585,7 @@
         },
         {
             "GtfsStopsId":"000000010600001",
-            "name":"Hrobo?ova",
+            "name":"Hroboňova",
             "lat":48.1630477905273,
             "lon":17.0918731689453
         },
@@ -663,19 +663,19 @@
         },
         {
             "GtfsStopsId":"000000012100001",
-            "name":"Ivana Bukov?ana",
+            "name":"Ivana Bukovčana",
             "lat":48.2078552246094,
             "lon":16.9758167266846
         },
         {
             "GtfsStopsId":"000000012200001",
             "name":"Ivanská cesta",
-            "lat":48.1649398803711,
-            "lon":17.1644649505615
+            "lat":48.164315,
+            "lon":17.171022
         },
         {
             "GtfsStopsId":"000000012300001",
-            "name":"Jan?ova",
+            "name":"Jančova",
             "lat":48.1481437683105,
             "lon":17.0891361236572
         },
@@ -705,7 +705,7 @@
         },
         {
             "GtfsStopsId":"000000012800001",
-            "name":"Jela?i?ova",
+            "name":"Jelačičova",
             "lat":48.1568832397461,
             "lon":17.1305923461914
         },
@@ -753,7 +753,7 @@
         },
         {
             "GtfsStopsId":"000000013700001",
-            "name":"Kadle?ík",
+            "name":"Kadlečík",
             "lat":48.1503944396973,
             "lon":17.0384864807129
         },
@@ -765,7 +765,7 @@
         },
         {
             "GtfsStopsId":"000000014000001",
-            "name":"Kame?olom",
+            "name":"Kameňolom",
             "lat":48.1966667175293,
             "lon":17.1000423431396
         },
@@ -777,7 +777,7 @@
         },
         {
             "GtfsStopsId":"000000014200001",
-            "name":"Karadži?ova",
+            "name":"Karadžičova",
             "lat":48.1535530090332,
             "lon":17.1246871948242
         },
@@ -795,7 +795,7 @@
         },
         {
             "GtfsStopsId":"000000014500001",
-            "name":"Kaštie?ska",
+            "name":"Kaštieľska",
             "lat":48.149227142334,
             "lon":17.1658802032471
         },
@@ -825,7 +825,7 @@
         },
         {
             "GtfsStopsId":"000000015000001",
-            "name":"Klepá?",
+            "name":"Klepáč",
             "lat":48.1819076538086,
             "lon":17.073579788208
         },
@@ -867,7 +867,7 @@
         },
         {
             "GtfsStopsId":"000000015800001",
-            "name":"Kop?any-sídlisko",
+            "name":"Kopčany-sídlisko",
             "lat":48.1148986816406,
             "lon":17.0928173065186
         },
@@ -909,7 +909,7 @@
         },
         {
             "GtfsStopsId":"000000016800001",
-            "name":"Kr?e",
+            "name":"Krče",
             "lat":48.2380638122559,
             "lon":17.034631729126
         },
@@ -951,7 +951,7 @@
         },
         {
             "GtfsStopsId":"000000017600001",
-            "name":"Kuku?ínova",
+            "name":"Kukučínova",
             "lat":48.1729507446289,
             "lon":17.1293106079102
         },
@@ -969,7 +969,7 @@
         },
         {
             "GtfsStopsId":"000000017900001",
-            "name":"Kva?alova",
+            "name":"Kvačalova",
             "lat":48.1542816162109,
             "lon":17.129487991333
         },
@@ -993,7 +993,7 @@
         },
         {
             "GtfsStopsId":"000000018300001",
-            "name":"Lama?",
+            "name":"Lamač",
             "lat":48.1922378540039,
             "lon":17.0530014038086
         },
@@ -1071,19 +1071,19 @@
         },
         {
             "GtfsStopsId":"000000019900001",
-            "name":"?ubovnianska",
+            "name":"Ľubovnianska",
             "lat":48.0992889404297,
             "lon":17.1142845153809
         },
         {
             "GtfsStopsId":"000000020000001",
-            "name":"Lú?anka",
+            "name":"Lúčanka",
             "lat":48.0996055603027,
             "lon":17.1092662811279
         },
         {
             "GtfsStopsId":"000000020100001",
-            "name":"Lú?na",
+            "name":"Lúčna",
             "lat":48.1388397216797,
             "lon":17.1527118682861
         },
@@ -1191,13 +1191,13 @@
         },
         {
             "GtfsStopsId":"000000022100001",
-            "name":"Milana Mare?ka",
+            "name":"Milana Marečka",
             "lat":48.2058067321777,
             "lon":16.9794635772705
         },
         {
             "GtfsStopsId":"000000022200001",
-            "name":"BBC1Plus-Mileti?ova",
+            "name":"BBC1Plus-Miletičova",
             "lat":48.1471290588379,
             "lon":17.1408176422119
         },
@@ -1221,7 +1221,7 @@
         },
         {
             "GtfsStopsId":"000000022600001",
-            "name":"Mlynarovi?ova",
+            "name":"Mlynarovičova",
             "lat":48.1279106140137,
             "lon":17.1199398040771
         },
@@ -1287,7 +1287,7 @@
         },
         {
             "GtfsStopsId":"000000024000001",
-            "name":"Nad lú?kami",
+            "name":"Nad lúčkami",
             "lat":48.1563034057617,
             "lon":17.0532035827637
         },
@@ -1323,7 +1323,7 @@
         },
         {
             "GtfsStopsId":"000000024600001",
-            "name":"Nám. hrani?iarov",
+            "name":"Nám. hraničiarov",
             "lat":48.1221046447754,
             "lon":17.1169834136963
         },
@@ -1401,7 +1401,7 @@
         },
         {
             "GtfsStopsId":"000000026000001",
-            "name":"Nový kame?olom",
+            "name":"Nový kameňolom",
             "lat":48.1580505371094,
             "lon":17.0085697174072
         },
@@ -1413,13 +1413,13 @@
         },
         {
             "GtfsStopsId":"000000026200001",
-            "name":"Malé Kras?any",
+            "name":"Malé Krasňany",
             "lat":48.1913833618164,
             "lon":17.1390724182129
         },
         {
             "GtfsStopsId":"000000026300001",
-            "name":"Lama?-Staré záhrady",
+            "name":"Lamač-Staré záhrady",
             "lat":48.1992225646973,
             "lon":17.0446071624756
         },
@@ -1461,7 +1461,7 @@
         },
         {
             "GtfsStopsId":"000000027300001",
-            "name":"Oslobodite?ská",
+            "name":"Osloboditeľská",
             "lat":48.2046928405762,
             "lon":17.2034740447998
         },
@@ -1473,7 +1473,7 @@
         },
         {
             "GtfsStopsId":"000000027500001",
-            "name":"OU železni?né",
+            "name":"OU železničné",
             "lat":48.2144470214844,
             "lon":17.1758041381836
         },
@@ -1503,7 +1503,7 @@
         },
         {
             "GtfsStopsId":"000000028000001",
-            "name":"Pári?kova",
+            "name":"Páričkova",
             "lat":48.1482429504395,
             "lon":17.1307754516602
         },
@@ -1539,7 +1539,7 @@
         },
         {
             "GtfsStopsId":"000000028600001",
-            "name":"?ierny les",
+            "name":"Čierny les",
             "lat":48.1330032348633,
             "lon":17.17116355896
         },
@@ -1611,7 +1611,7 @@
         },
         {
             "GtfsStopsId":"000000030100001",
-            "name":"Kamená?e",
+            "name":"Kamenáče",
             "lat":48.2056503295898,
             "lon":17.013111114502
         },
@@ -1635,7 +1635,7 @@
         },
         {
             "GtfsStopsId":"000000030500001",
-            "name":"Pra?anská",
+            "name":"Pračanská",
             "lat":48.2013359069824,
             "lon":17.2082805633545
         },
@@ -1743,7 +1743,7 @@
         },
         {
             "GtfsStopsId":"000000032300001",
-            "name":"Pod Ze?ákom",
+            "name":"Pod Zečákom",
             "lat":48.1859970092773,
             "lon":17.0535984039307
         },
@@ -1779,25 +1779,25 @@
         },
         {
             "GtfsStopsId":"000000032900001",
-            "name":"Plniare? plynu",
+            "name":"Plniareň plynu",
             "lat":48.1123161315918,
             "lon":17.202465057373
         },
         {
             "GtfsStopsId":"000000033000001",
-            "name":"Prokopa Ve?kého",
+            "name":"Prokopa Veľkého",
             "lat":48.1630096435547,
             "lon":17.0887775421143
         },
         {
             "GtfsStopsId":"000000033100001",
-            "name":"MiÚ Ra?a",
+            "name":"MiÚ Rača",
             "lat":48.2113189697266,
             "lon":17.1538047790527
         },
         {
             "GtfsStopsId":"000000033200001",
-            "name":"Ra?ianske mýto",
+            "name":"Račianske mýto",
             "lat":48.158145904541,
             "lon":17.1206130981445
         },
@@ -1809,7 +1809,7 @@
         },
         {
             "GtfsStopsId":"000000033400001",
-            "name":"Radni?né nám.",
+            "name":"Radničné nám.",
             "lat":48.1499328613281,
             "lon":17.17160987854
         },
@@ -1833,7 +1833,7 @@
         },
         {
             "GtfsStopsId":"000000033800001",
-            "name":"Ríbez?ová",
+            "name":"Ríbezľová",
             "lat":48.1470184326172,
             "lon":17.1852989196777
         },
@@ -1881,7 +1881,7 @@
         },
         {
             "GtfsStopsId":"000000034600001",
-            "name":"Drie?ovské lúky",
+            "name":"Drieňovské lúky",
             "lat":48.1943435668945,
             "lon":17.0915298461914
         },
@@ -1893,7 +1893,7 @@
         },
         {
             "GtfsStopsId":"000000034800001",
-            "name":"Sad J. Krá?a",
+            "name":"Sad J. Kráľa",
             "lat":48.1357269287109,
             "lon":17.1154174804688
         },
@@ -1947,7 +1947,7 @@
         },
         {
             "GtfsStopsId":"000000035700001",
-            "name":"Cintorín Slávi?ie údolie",
+            "name":"Cintorín Slávičie údolie",
             "lat":48.1582641601563,
             "lon":17.0682487487793
         },
@@ -1959,7 +1959,7 @@
         },
         {
             "GtfsStopsId":"000000035900001",
-            "name":"Slia?ska",
+            "name":"Sliačska",
             "lat":48.1725845336914,
             "lon":17.1259250640869
         },
@@ -1977,13 +1977,13 @@
         },
         {
             "GtfsStopsId":"000000036200001",
-            "name":"Vl?ie hrdlo",
+            "name":"Vlčie hrdlo",
             "lat":48.1284637451172,
             "lon":17.1749134063721
         },
         {
             "GtfsStopsId":"000000036300001",
-            "name":"Vl?ie hrdlo-sídlisko",
+            "name":"Vlčie hrdlo-sídlisko",
             "lat":48.1288223266602,
             "lon":17.1658363342285
         },
@@ -2031,19 +2031,19 @@
         },
         {
             "GtfsStopsId":"000000037100001",
-            "name":"Strmé v?šky",
+            "name":"Strmé vŕšky",
             "lat":48.2280311584473,
             "lon":17.0476245880127
         },
         {
             "GtfsStopsId":"000000037200001",
-            "name":"Spa?ov?a",
+            "name":"Spaľovňa",
             "lat":48.1080856323242,
             "lon":17.1672744750977
         },
         {
             "GtfsStopsId":"000000037300001",
-            "name":"Spolo?enská",
+            "name":"Spoločenská",
             "lat":48.1702575683594,
             "lon":17.1654186248779
         },
@@ -2067,7 +2067,7 @@
         },
         {
             "GtfsStopsId":"000000037700001",
-            "name":"Starý kame?olom",
+            "name":"Starý kameňolom",
             "lat":48.1623573303223,
             "lon":17.0008277893066
         },
@@ -2079,13 +2079,13 @@
         },
         {
             "GtfsStopsId":"000000038000001",
-            "name":"Stavite?ská",
+            "name":"Staviteľská",
             "lat":48.1904678344727,
             "lon":17.1622772216797
         },
         {
             "GtfsStopsId":"000000038200001",
-            "name":"Húš?avova",
+            "name":"Húščavova",
             "lat":48.1789512634277,
             "lon":17.0549545288086
         },
@@ -2097,7 +2097,7 @@
         },
         {
             "GtfsStopsId":"000000038400001",
-            "name":"Stre?nianska",
+            "name":"Strečnianska",
             "lat":48.1033630371094,
             "lon":17.1077919006348
         },
@@ -2133,7 +2133,7 @@
         },
         {
             "GtfsStopsId":"000000039100001",
-            "name":"Súmra?ná",
+            "name":"Súmračná",
             "lat":48.1579132080078,
             "lon":17.1674785614014
         },
@@ -2205,7 +2205,7 @@
         },
         {
             "GtfsStopsId":"000000040800001",
-            "name":"Topo?ové",
+            "name":"Topoľové",
             "lat":48.0835800170898,
             "lon":17.2007179260254
         },
@@ -2223,7 +2223,7 @@
         },
         {
             "GtfsStopsId":"000000041100001",
-            "name":"Štefanovi?ova",
+            "name":"Štefanovičova",
             "lat":48.1538238525391,
             "lon":17.1106643676758
         },
@@ -2343,7 +2343,7 @@
         },
         {
             "GtfsStopsId":"000000043300001",
-            "name":"Topo??ianska",
+            "name":"Topoľčianska",
             "lat":48.1095275878906,
             "lon":17.1082153320313
         },
@@ -2361,7 +2361,7 @@
         },
         {
             "GtfsStopsId":"000000043600001",
-            "name":"Tren?ianska",
+            "name":"Trenčianska",
             "lat":48.1510124206543,
             "lon":17.1390361785889
         },
@@ -2397,7 +2397,7 @@
         },
         {
             "GtfsStopsId":"000000044200001",
-            "name":"U?ite?ská",
+            "name":"Učiteľská",
             "lat":48.127010345459,
             "lon":17.2125072479248
         },
@@ -2433,7 +2433,7 @@
         },
         {
             "GtfsStopsId":"000000045100001",
-            "name":"Vajnory-kone?ná",
+            "name":"Vajnory-konečná",
             "lat":48.2092895507813,
             "lon":17.2200450897217
         },
@@ -2475,7 +2475,7 @@
         },
         {
             "GtfsStopsId":"000000046000001",
-            "name":"Siho? - BVS",
+            "name":"Sihoť - BVS",
             "lat":48.1487808227539,
             "lon":17.0440578460693
         },
@@ -2499,31 +2499,31 @@
         },
         {
             "GtfsStopsId":"000000046400001",
-            "name":"Vozov?a Jurajov dvor",
+            "name":"Vozovňa Jurajov dvor",
             "lat":48.1815872192383,
             "lon":17.1612987518311
         },
         {
             "GtfsStopsId":"000000046500001",
-            "name":"Vozov?a Kras?any",
+            "name":"Vozovňa Krasňany",
             "lat":48.1883354187012,
             "lon":17.1354789733887
         },
         {
             "GtfsStopsId":"000000046600001",
-            "name":"Vozov?a Trnávka",
+            "name":"Vozovňa Trnávka",
             "lat":48.1747055053711,
             "lon":17.1637935638428
         },
         {
             "GtfsStopsId":"000000046700001",
-            "name":"Vraku?a-záhrady",
+            "name":"Vrakuňa-záhrady",
             "lat":48.1575393676758,
             "lon":17.1898422241211
         },
         {
             "GtfsStopsId":"000000046900001",
-            "name":"Vran?ovi?ova",
+            "name":"Vrančovičova",
             "lat":48.1939239501953,
             "lon":17.046537399292
         },
@@ -2601,7 +2601,7 @@
         },
         {
             "GtfsStopsId":"000000048500001",
-            "name":"ŽST Lama?",
+            "name":"ŽST Lamač",
             "lat":48.1851348876953,
             "lon":17.0490818023682
         },
@@ -2631,7 +2631,7 @@
         },
         {
             "GtfsStopsId":"000000049000001",
-            "name":"Kop?ianska-stred",
+            "name":"Kopčianska-stred",
             "lat":48.1183128356934,
             "lon":17.0955696105957
         },
@@ -2643,7 +2643,7 @@
         },
         {
             "GtfsStopsId":"000000049200001",
-            "name":"Kaštie? Rusovce",
+            "name":"Kaštieľ Rusovce",
             "lat":48.0507316589355,
             "lon":17.1505699157715
         },
@@ -2715,7 +2715,7 @@
         },
         {
             "GtfsStopsId":"000000050400001",
-            "name":"Zvon?eková",
+            "name":"Zvončeková",
             "lat":48.2182273864746,
             "lon":17.1502208709717
         },
@@ -2733,13 +2733,13 @@
         },
         {
             "GtfsStopsId":"000000050700001",
-            "name":"Železná studni?ka",
+            "name":"Železná studnička",
             "lat":48.1901702880859,
             "lon":17.0815734863281
         },
         {
             "GtfsStopsId":"000000050800001",
-            "name":"Železni?ná",
+            "name":"Železničná",
             "lat":48.1477508544922,
             "lon":17.2089824676514
         },
@@ -2817,7 +2817,7 @@
         },
         {
             "GtfsStopsId":"000000052400001",
-            "name":"Poto?ná",
+            "name":"Potočná",
             "lat":48.2222023010254,
             "lon":17.1485328674316
         },
@@ -2835,7 +2835,7 @@
         },
         {
             "GtfsStopsId":"000000052800001",
-            "name":"Kop?ianska",
+            "name":"Kopčianska",
             "lat":48.1124382019043,
             "lon":17.0909614562988
         },
@@ -2895,7 +2895,7 @@
         },
         {
             "GtfsStopsId":"000000056400001",
-            "name":"Havlí?kova",
+            "name":"Havlíčkova",
             "lat":48.1535606384277,
             "lon":17.1017646789551
         },
@@ -2913,7 +2913,7 @@
         },
         {
             "GtfsStopsId":"000000056700001",
-            "name":"?unovo-priehrada",
+            "name":"Čunovo-priehrada",
             "lat":48.0297355651855,
             "lon":17.2253818511963
         },
@@ -2925,13 +2925,13 @@
         },
         {
             "GtfsStopsId":"000000056900001",
-            "name":"?.Voda,Hor.dvor",
+            "name":"\"Č.Voda",
             "lat":48.2299041748047,
             "lon":17.2417812347412
         },
         {
             "GtfsStopsId":"000000057000001",
-            "name":"Ch.Grob,Výhon",
+            "name":"\"Ch.Grob",
             "lat":48.228141784668,
             "lon":17.2840538024902
         },
@@ -2949,7 +2949,7 @@
         },
         {
             "GtfsStopsId":"000000057400001",
-            "name":"TESCO Lama?",
+            "name":"TESCO Lamač",
             "lat":48.1763305664063,
             "lon":17.0658073425293
         },
@@ -2961,7 +2961,7 @@
         },
         {
             "GtfsStopsId":"000000057600001",
-            "name":"Viedenská elektri?ka",
+            "name":"Viedenská električka",
             "lat":48.1364097595215,
             "lon":17.1092777252197
         },
@@ -2979,7 +2979,7 @@
         },
         {
             "GtfsStopsId":"000000058000001",
-            "name":"Pestovate?ská",
+            "name":"Pestovateľská",
             "lat":48.1699638366699,
             "lon":17.1831531524658
         },
@@ -3051,7 +3051,7 @@
         },
         {
             "GtfsStopsId":"000000059500001",
-            "name":"Viš?ová",
+            "name":"Višňová",
             "lat":48.1658401489258,
             "lon":17.0998554229736
         },
@@ -3087,13 +3087,13 @@
         },
         {
             "GtfsStopsId":"000000060900001",
-            "name":"Vl?ie hrdlo-záhrady",
+            "name":"Vlčie hrdlo-záhrady",
             "lat":48.1229858398438,
             "lon":17.1620025634766
         },
         {
             "GtfsStopsId":"000000061400001",
-            "name":"Hainburg/Donau, Pfaffenbergweg",
+            "name":"\"Hainburg/Donau",
             "lat":48.1400337219238,
             "lon":16.9214134216309
         },
@@ -3177,25 +3177,25 @@
         },
         {
             "GtfsStopsId":"000000063700001",
-            "name":"Ch. Grob , Lú?na",
+            "name":"\"Ch. Grob ",
             "lat":48.228328704834,
             "lon":17.276912689209
         },
         {
             "GtfsStopsId":"000000063800001",
-            "name":"Ch.Grob , Žilinská",
+            "name":"\"Ch.Grob ",
             "lat":48.2326393127441,
             "lon":17.2569675445557
         },
         {
             "GtfsStopsId":"000000063900001",
-            "name":"Ch.Grob,Monarská Alej",
+            "name":"\"Ch.Grob",
             "lat":48.2342948913574,
             "lon":17.250825881958
         },
         {
             "GtfsStopsId":"000000064300001",
-            "name":"Hainburg,Ungartor/B9",
+            "name":"\"Hainburg",
             "lat":48.1471138000488,
             "lon":16.9471778869629
         },
@@ -3213,7 +3213,7 @@
         },
         {
             "GtfsStopsId":"000000064600001",
-            "name":"?unovo-záhrady",
+            "name":"Čunovo-záhrady",
             "lat":48.0217475891113,
             "lon":17.197395324707
         },
@@ -3279,7 +3279,7 @@
         },
         {
             "GtfsStopsId":"000000067000001",
-            "name":"Ve?kolúcky potok",
+            "name":"Veľkolúcky potok",
             "lat":48.2119255065918,
             "lon":17.0128326416016
         },
@@ -3297,7 +3297,7 @@
         },
         {
             "GtfsStopsId":"000000067400001",
-            "name":"Rajka,Gépjavító",
+            "name":"\"Rajka",
             "lat":48.0001182556152,
             "lon":17.1938610076904
         },
@@ -3345,19 +3345,19 @@
         },
         {
             "GtfsStopsId":"000000068500001",
-            "name":"Marianka,Nad Bednárovým",
+            "name":"\"Marianka",
             "lat":48.2498626708984,
             "lon":17.0456962585449
         },
         {
             "GtfsStopsId":"000000068600001",
-            "name":"Marianka,Cesta do Stupavy",
+            "name":"\"Marianka",
             "lat":48.2516975402832,
             "lon":17.0553112030029
         },
         {
             "GtfsStopsId":"000000068700001",
-            "name":"Marianka,námestie",
+            "name":"\"Marianka",
             "lat":48.2490882873535,
             "lon":17.0625457763672
         },
@@ -3369,13 +3369,13 @@
         },
         {
             "GtfsStopsId":"000000069100001",
-            "name":"Slne?nice",
+            "name":"Slnečnice",
             "lat":48.0879135131836,
             "lon":17.1237373352051
         },
         {
             "GtfsStopsId":"000000069300001",
-            "name":"?ervený most P+R",
+            "name":"Červený most P+R",
             "lat":48.1748008728027,
             "lon":17.0736865997314
         },

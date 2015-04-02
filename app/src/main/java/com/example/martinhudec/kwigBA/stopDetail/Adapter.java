@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.martinhudec.kwigBA.Information;
 import com.example.martinhudec.kwigBA.R;
 
 import java.util.Collections;
@@ -43,17 +42,22 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        RouteDetail current = data.get(position);
+        RouteDetail routeDetail = data.get(position);
         Log.d("mathis", "on bind view holder " + position);
-        holder.headingTo.setText(current.headingTo);
-        holder.icon.setImageResource(current.vehicleShortName);
-        holder.arrivalTime.setText(current.arrivalTime);
-        holder.delay.setText(current.delay);
+        holder.headingTo.setText(routeDetail.headingTo);
+        holder.vehicleId.setText(routeDetail.vehicleId);
+        holder.icon.setImageResource(routeDetail.vehicleTypeIcon);
+        holder.arrivalTime.setText(routeDetail.arrivalTime);
+        holder.delay.setText(routeDetail.delay);
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        if (data.size() > 15) {
+            return 15;
+        }
+
+        return data.size();
     }
 
     public void delete(int position) {
@@ -63,6 +67,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView headingTo;
+        TextView vehicleId;
         TextView arrivalTime;
         ImageView icon;
         TextView delay;
@@ -71,11 +76,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
             super(itemView);
             headingTo = (TextView) itemView.findViewById(R.id.stop_custom_row_route_heading_to);
+            vehicleId = (TextView) itemView.findViewById(R.id.stop_custom_row_route_id);
             icon = (ImageView) itemView.findViewById(R.id.stop_custom_row_route_icon);
             arrivalTime = (TextView) itemView.findViewById(R.id.stop_custom_row_route_arrival_time);
-            delay= (TextView) itemView.findViewById(R.id.stop_custom_row_route_delay);
+            delay = (TextView) itemView.findViewById(R.id.stop_custom_row_route_delay);
             icon.setOnClickListener(this);
-            Log.d("mathis", "MyViewHolder");
         }
 
         @Override
