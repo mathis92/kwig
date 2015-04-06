@@ -104,15 +104,6 @@ public class StopDetailsActivity extends ActionBarActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("requestContent", "CurrentStop");
-
-                /*byte[] data = null;
-                try {
-                    data = stopName.getBytes("UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                String base64StopName = Base64.encodeToString(data, Base64.DEFAULT);
-                */
                 params.put("stopName", stopName);
 
                 return params;

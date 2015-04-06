@@ -47,6 +47,8 @@ public class LocationService extends Service implements LocationListener {
 
     public void onLocationChanged(final Location location) {
         this.location = location;
+
+
         // TODO this is where you'd do something like context.sendBroadcast()
     }
 

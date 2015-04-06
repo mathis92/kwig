@@ -20,13 +20,16 @@ import android.widget.TextView;
 import com.example.martinhudec.kwigBA.MainActivity;
 import com.example.martinhudec.kwigBA.R;
 import com.example.martinhudec.kwigBA.RequestSend;
+import com.example.martinhudec.kwigBA.location.LocationService;
 import com.example.martinhudec.kwigBA.stopDetail.StopDetailsActivity;
 import com.gc.materialdesign.views.ButtonFlat;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 
 import java.io.IOException;
@@ -88,10 +91,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
         infoWindowButton = (ButtonFlat) markerInfoWindow.findViewById(R.id.markerButton);
         infoWindowTitle = (TextView) markerInfoWindow.findViewById(R.id.markerTitle);
 
+
         return mapLayout;
 
 
     }
+
 
     public void startLocManager() {
         Log.d("MapsFragment", " starting Location Manager");
@@ -103,7 +108,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
         Log.d("MapsFragment", loc.toString() + " provider " + provider);
 
         if (loc != null) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), 15));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.162222,17.123807),15));
+        //    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), 15));
             startLocation = loc;
         }
 
@@ -152,19 +158,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
             }
 
         });
+        this.mMap.setOnCameraChangeListener(new OnCameraChangeListener(mMap,stopsIS));
 
 
-        ShowStops showStops = new ShowStops(mMap);
-        try {
-            List<Stop> list = readJsonStream(stopsIS);
-            showStops.execute(list);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
 
-        locationListener = new LocationListener() {
+        locationListener = new LocationListener(){
             public void onLocationChanged(Location location) {
                 ll = new LatLng(location.getLatitude(), location.getLongitude());
 
@@ -188,8 +187,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
         googleMap.setMyLocationEnabled(true);
         mMap = googleMap;
         startLocManager();
-        //Onzo
+
     }
+
+
 
 
     public List readJsonStream(InputStream in) throws IOException {
@@ -249,6 +250,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
         reader.endObject();
         return new Stop(id, name, lat, lon);
     }
+
 
 }
 

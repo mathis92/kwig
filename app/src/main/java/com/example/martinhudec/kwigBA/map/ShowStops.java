@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.LevelListDrawable;
 import android.os.AsyncTask;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,9 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +31,8 @@ public class ShowStops extends AsyncTask<Object, List<Stop>, List<Stop>> {
     GoogleMap mMap = null;
     List<MarkerDetails> markerList = null;
     List<Marker> currentlyDisplayed = null;
+    List stopList = null;
+    CameraPosition cameraPosition = null;
 
     public ShowStops(GoogleMap mMap) {
         this.mMap = mMap;
@@ -35,11 +41,19 @@ public class ShowStops extends AsyncTask<Object, List<Stop>, List<Stop>> {
     }
 
 
-
     @Override
     protected List<Stop> doInBackground(Object... params) {
-        List<Stop> stopList = (List<Stop>) params[0];
-        publishProgress(stopList);
+        // List<Stop> stopList = (List<Stop>) params[0];
+        cameraPosition = (CameraPosition) params[0];
+        try {
+            if (stopList == null) {
+                stopList = readJsonStream((InputStream) params[1]);
+            }
+            publishProgress(stopList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 
@@ -53,10 +67,12 @@ public class ShowStops extends AsyncTask<Object, List<Stop>, List<Stop>> {
                         .title(stop.getStopName())
                         .position(stop.getLatLng())
                         .visible(false));
-                markerList.add(new MarkerDetails(marker,stop));
+                markerList.add(new MarkerDetails(marker, stop));
+
             }
+            drawStops(cameraPosition.zoom);
         }
-        mMap.setOnCameraChangeListener(getCameraChangeListener(values[0]));
+        //      mMap.setOnCameraChangeListener(getCameraChangeListener(values[0]));
         mMap.setOnMarkerClickListener(getOnMarkerClickListener());
     }
 
@@ -73,7 +89,7 @@ public class ShowStops extends AsyncTask<Object, List<Stop>, List<Stop>> {
         };
     }
 
-    public GoogleMap.OnMarkerClickListener getOnMarkerClickListener(){
+    public GoogleMap.OnMarkerClickListener getOnMarkerClickListener() {
         return new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -88,7 +104,7 @@ public class ShowStops extends AsyncTask<Object, List<Stop>, List<Stop>> {
     public void drawStops(float zoom) {
         if (zoom > 14) {
             for (MarkerDetails marker : markerList) {
-               marker.getMarker().setVisible(true);
+                marker.getMarker().setVisible(true);
             }
         } else {
             for (MarkerDetails marker : markerList) {
@@ -96,5 +112,64 @@ public class ShowStops extends AsyncTask<Object, List<Stop>, List<Stop>> {
             }
         }
     }
+
+    public List readJsonStream(InputStream in) throws IOException {
+        JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
+        try {
+            return readStopsObject(reader);
+        } finally {
+            reader.close();
+        }
+    }
+
+    public List readStopsObject(JsonReader reader) throws IOException {
+        List stops = new ArrayList();
+        reader.beginObject();
+        while (reader.hasNext()) {
+            String objName = reader.nextName();
+            if (objName.equals("stops")) {
+                stops = readStopsArray(reader);
+            }
+        }
+        reader.close();
+        return stops;
+    }
+
+    public List readStopsArray(JsonReader reader) throws IOException {
+        List stops = new ArrayList();
+
+        reader.beginArray();
+        while (reader.hasNext()) {
+            stops.add(readStops(reader));
+        }
+        reader.endArray();
+        return stops;
+    }
+
+    public Stop readStops(JsonReader reader) throws IOException {
+        long id = -1;
+        String name = null;
+        Double lat = null;
+        Double lon = null;
+
+        reader.beginObject();
+        while (reader.hasNext()) {
+            String objName = reader.nextName();
+            if (objName.equals("id")) {
+                id = reader.nextLong();
+            } else if (objName.equals("name")) {
+                name = reader.nextString();
+            } else if (objName.equals("lat")) {
+                lat = reader.nextDouble();
+            } else if (objName.equals("lon")) {
+                lon = reader.nextDouble();
+            } else {
+                reader.skipValue();
+            }
+        }
+        reader.endObject();
+        return new Stop(id, name, lat, lon);
+    }
+
 
 }
