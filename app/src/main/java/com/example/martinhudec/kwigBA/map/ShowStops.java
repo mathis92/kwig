@@ -103,14 +103,14 @@ public class ShowStops extends AsyncTask<Object, List<Stop>, List<Stop>> {
 
     public void drawStops(float zoom) {
         if (zoom > 14) {
-            for (MarkerDetails marker : markerList) {
-                marker.getMarker().setVisible(true);
+                for (MarkerDetails marker : markerList) {
+                    marker.getMarker().setVisible(true);
+                }
+            } else {
+                for (MarkerDetails marker : markerList) {
+                    marker.getMarker().setVisible(false);
+                }
             }
-        } else {
-            for (MarkerDetails marker : markerList) {
-                marker.getMarker().setVisible(false);
-            }
-        }
     }
 
     public List readJsonStream(InputStream in) throws IOException {

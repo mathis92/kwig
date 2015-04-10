@@ -20,6 +20,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_example">Example action</string>
+    <string name="title_find_stop_activity">Find Stop Activity</string>
+    <string name="search_hint">hint</string>
     <string-array name="tabs">
         <item>MAPS</item>
         <item>FIND</item>

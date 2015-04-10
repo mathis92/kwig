@@ -14,6 +14,7 @@ public class Vehicle {
     String nextStop;
     String arrivalTime;
     String speed;
+    String id;
 
 
 }

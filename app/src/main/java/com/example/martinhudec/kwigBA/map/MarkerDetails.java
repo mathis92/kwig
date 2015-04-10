@@ -8,10 +8,20 @@ import com.google.android.gms.maps.model.Marker;
 public class MarkerDetails {
     Marker marker;
     Stop stop;
+    Vehicle vehicle;
 
     public MarkerDetails(Marker marker, Stop stop) {
         this.marker = marker;
         this.stop = stop;
+    }
+
+    public MarkerDetails(Marker marker,Vehicle vehicle) {
+        this.vehicle = vehicle;
+        this.marker = marker;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 
     public Marker getMarker() {

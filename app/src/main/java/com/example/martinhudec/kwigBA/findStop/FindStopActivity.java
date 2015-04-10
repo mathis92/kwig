@@ -1,16 +1,24 @@
-package com.example.martinhudec.kwigBA.stopDetail;
+package com.example.martinhudec.kwigBA.findStop;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,37 +27,47 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.martinhudec.kwigBA.R;
 import com.example.martinhudec.kwigBA.serverConnection.VolleySingleton;
+import com.example.martinhudec.kwigBA.stopDetail.Adapter;
+import com.example.martinhudec.kwigBA.stopDetail.RouteDetail;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Created by martinhudec on 10/04/15.
+ */
+public class FindStopActivity extends ActionBarActivity{
 
-public class StopDetailsActivity extends ActionBarActivity {
     Toolbar toolbar;
     RecyclerView recyclerView;
     Adapter adapter;
-    String stopName = null;
-    List<RouteDetail> routeData = new ArrayList<>();
+    private TextView txtQuery;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.find_stop_activity);
 
-        Bundle b = getIntent().getExtras();
-        stopName = b.getString("stopName");
-        this.setTitle(stopName);
-        setContentView(R.layout.stop_detail_activity);
+        // Enabling Back navigation on Action Bar icon
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        txtQuery = (TextView) findViewById(R.id.txtQuery);
+
+        handleIntent(getIntent());
+
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
 
         final Activity activity = this;
 
@@ -61,35 +79,6 @@ public class StopDetailsActivity extends ActionBarActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.d("Response", response);
-
-                        try {
-                            JSONArray jsonArray = new JSONArray(response);
-                            for(int i = 0; i<jsonArray.length(); i++){
-                                RouteDetail current = new RouteDetail();
-                                switch (jsonArray.getJSONObject(i).getInt("routeType")){
-                                    case 0: current.vehicleTypeIcon = R.drawable.tram_icon;
-                                        break;
-                                    case 2: current.vehicleTypeIcon = R.drawable.bus_icon1;
-                                        break;
-                                    case 3: current.vehicleTypeIcon = R.drawable.bus_icon1;
-                                        break;
-                                }
-
-                                current.vehicleId = jsonArray.getJSONObject(i).getString("routeId");
-                                current.arrivalTime = jsonArray.getJSONObject(i).getString("arrivalTime");
-                                current.delay =  jsonArray.getJSONObject(i).getString("delay");
-                                current.headingTo = jsonArray.getJSONObject(i).getString("stopHeadSign");
-                                routeData.add(current);
-                            }
-                            Log.d("StopDetialsActivity","routeData size " + routeData.size());
-                            if(!routeData.isEmpty()) {
-                                adapter = new Adapter(activity, routeData);
-                                recyclerView.setAdapter(adapter);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(activity));
-                            }
-                            } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -104,23 +93,26 @@ public class StopDetailsActivity extends ActionBarActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("requestContent", "CurrentStop");
-                params.put("stopName", stopName);
-
                 return params;
             }
         };
         requestQueue.add(postRequest);
-
-
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_sub, menu);
-        return true;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_search, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+
+
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -138,5 +130,30 @@ public class StopDetailsActivity extends ActionBarActivity {
             NavUtils.navigateUpFromSameTask(this);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    /**
+     * Handling intent data
+     */
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+
+            /**
+             * Use this query to display search results like
+             * 1. Getting the data from SQLite and showing in listview
+             * 2. Making webrequest and displaying the data
+             * For now we just display the query only
+             */
+            txtQuery.setText("Search Query: " + query);
+
+        }
+
     }
 }

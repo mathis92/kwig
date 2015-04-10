@@ -1,7 +1,6 @@
 package com.example.martinhudec.kwigBA.nearStops;
 
 import android.content.Context;
-import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -19,15 +18,12 @@ import android.widget.Toast;
 import com.example.martinhudec.kwigBA.MainActivity;
 import com.example.martinhudec.kwigBA.R;
 import com.example.martinhudec.kwigBA.RequestSend;
-import com.example.martinhudec.kwigBA.location.LocationService;
-import com.example.martinhudec.kwigBA.map.LocateVehicle;
+import com.example.martinhudec.kwigBA.map.UpdateVehicleLocation;
 import com.example.martinhudec.kwigBA.map.MarkerDetails;
-import com.example.martinhudec.kwigBA.stopDetail.StopDetailsActivity;
 import com.gc.materialdesign.views.ButtonFlat;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 
 import java.io.InputStream;
 import java.util.List;
@@ -46,7 +42,7 @@ public class NearFragment extends Fragment implements LocationListener{
 
     private LatLng ll;
     private RequestSend rs;
-    private LocateVehicle locateVehicle = null;
+    private UpdateVehicleLocation updateVehicleLocation = null;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private MainActivity mainActivity;
     public InputStream stopsIS;

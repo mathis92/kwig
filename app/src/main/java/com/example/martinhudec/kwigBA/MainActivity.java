@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.martinhudec.kwigBA.findStop.FindStopActivity;
 import com.example.martinhudec.kwigBA.map.MapsFragment;
 import com.example.martinhudec.kwigBA.nearStops.NearFragment;
 import com.example.martinhudec.kwigBA.stopDetail.StopDetailsActivity;
@@ -91,7 +92,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         }
         if (id == R.id.navigate) {
             //startActivity(new Intent(this, SubActivity.class));
-            startActivity(new Intent(this, StopDetailsActivity.class));
+            startActivity(new Intent(this, FindStopActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
@@ -190,7 +191,5 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             return layout;
         }
     }
-    public void getJKJ(){
-        
-    }
+
 }

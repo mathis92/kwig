@@ -20,14 +20,12 @@ import android.widget.TextView;
 import com.example.martinhudec.kwigBA.MainActivity;
 import com.example.martinhudec.kwigBA.R;
 import com.example.martinhudec.kwigBA.RequestSend;
-import com.example.martinhudec.kwigBA.location.LocationService;
 import com.example.martinhudec.kwigBA.stopDetail.StopDetailsActivity;
 import com.gc.materialdesign.views.ButtonFlat;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -37,11 +35,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
  */
-public class MapsFragment extends Fragment implements OnMapReadyCallback{
+public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     private LocationManager locationManager;
     private LocationListener locationListener;
@@ -49,7 +48,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
 
     private LatLng ll;
     private RequestSend rs;
-    private LocateVehicle locateVehicle = null;
+    private UpdateVehicleLocation updateVehicleLocation = null;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private MainActivity mainActivity;
     public InputStream stopsIS;
@@ -58,7 +57,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
     private TextView infoWindowTitle = null;
     private ButtonFlat infoWindowButton = null;
     private View mapLayout = null;
-    private List<MarkerDetails> markerDetailsList = null;
+    private List<MarkerDetails> currentlyDisplayedVehicles = null;
 
     public MapsFragment() {
         // Required empty public constructor
@@ -90,6 +89,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
         markerInfoWindow = (ViewGroup) mainActivity.getLayoutInflater().inflate(R.layout.marker_info_window, null);
         infoWindowButton = (ButtonFlat) markerInfoWindow.findViewById(R.id.markerButton);
         infoWindowTitle = (TextView) markerInfoWindow.findViewById(R.id.markerTitle);
+        currentlyDisplayedVehicles = new CopyOnWriteArrayList<>();
 
 
         return mapLayout;
@@ -108,8 +108,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
         Log.d("MapsFragment", loc.toString() + " provider " + provider);
 
         if (loc != null) {
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.162222,17.123807),15));
-        //    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), 15));
+            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.162222,17.123807),15));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), 15));
             startLocation = loc;
         }
 
@@ -158,12 +158,20 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
             }
 
         });
-        this.mMap.setOnCameraChangeListener(new OnCameraChangeListener(mMap,stopsIS));
+        OnCameraChangeListener onCameraChangeListener = new OnCameraChangeListener(mMap, stopsIS, currentlyDisplayedVehicles);
+        this.mMap.setOnCameraChangeListener(onCameraChangeListener);
 
 
-
-
-        locationListener = new LocationListener(){
+        //UpdateVehicleLocation vehicleLocation = new UpdateVehicleLocation(mMap, currentlyDisplayedVehicles);
+        //vehicleLocation.execute();
+     //   UpdateLocation updateLocation = new UpdateLocation(mMap, currentlyDisplayedVehicles);
+      //  new Thread(updateLocation).start();
+/*
+        ShowVehicles showVehicles = new ShowVehicles(mMap, currentlyDisplayedVehicles);
+        Log.d("BOUNDS", mMap.getProjection().getVisibleRegion().latLngBounds.toString());
+        showVehicles.execute(mMap.getProjection().getVisibleRegion().latLngBounds,mMap.getCameraPosition());
+*/
+        locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
                 ll = new LatLng(location.getLatitude(), location.getLongitude());
 
@@ -189,8 +197,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
         startLocManager();
 
     }
-
-
 
 
     public List readJsonStream(InputStream in) throws IOException {
@@ -250,7 +256,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
         reader.endObject();
         return new Stop(id, name, lat, lon);
     }
-
 
 }
 

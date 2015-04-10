@@ -1,8 +1,15 @@
 package com.example.martinhudec.kwigBA.map;
 
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -14,10 +21,13 @@ import com.example.martinhudec.kwigBA.serverConnection.VolleySingleton;
 import com.example.martinhudec.kwigBA.stopDetail.Adapter;
 import com.example.martinhudec.kwigBA.stopDetail.RouteDetail;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.Projection;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,66 +36,94 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by martinhudec on 06/04/15.
  */
-public class ShowVehicles extends AsyncTask<LatLngBounds, List<Vehicle>, List<Vehicle>> {
+public class ShowVehicles extends AsyncTask<Object, List<Vehicle>, List<Vehicle>> {
     GoogleMap mMap = null;
 
-    List<Vehicle> currentlyDisplayed = null;
+    List<MarkerDetails> currentlyDisplayed = null;
     List<Vehicle> currentVehicleList = null;
 
-    public ShowVehicles(GoogleMap mMap) {
+    public ShowVehicles(GoogleMap mMap, List<MarkerDetails> currentlyDisplayed) {
         this.mMap = mMap;
-
-        currentlyDisplayed = new ArrayList<>();
-
+        this.currentlyDisplayed = currentlyDisplayed;
     }
 
     @Override
-    protected List<Vehicle> doInBackground(LatLngBounds... params) {
+    protected List<Vehicle> doInBackground(Object... params) {
+    Log.d("FRAJERSKY","");
+        if (((CameraPosition) params[1]).zoom > 14) {
+            requestVehicles((LatLngBounds) params[0]);
+        } else {
+            currentVehicleList = new ArrayList<>();
+        }
+        while (currentVehicleList == null) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
-        currentVehicleList = requestVehicles(params[0]);
-        publishProgress();
         return currentVehicleList;
     }
 
-
-    public GoogleMap.OnCameraChangeListener getCameraChangeListener() {
-
-        return new GoogleMap.OnCameraChangeListener() {
-            @Override
-            public void onCameraChange(CameraPosition position) {
-                LatLngBounds bounds = mMap.getProjection().getVisibleRegion().latLngBounds;
-                currentVehicleList = requestVehicles(bounds);
-                Log.d("bounds changed", bounds.toString());
-            }
-        };
-    }
     @Override
     protected void onProgressUpdate(List<Vehicle>... values) {
         super.onProgressUpdate(values);
-        Log.d("ON PROGRESS MADABIX", "");
-     //   this.mMap.setOnCameraChangeListener(getCameraChangeListener());
+        Log.d("ON PROGRESS MADABIX", ((Integer) currentVehicleList.size()).toString());
+    }
+
+    @Override
+    protected void onPostExecute(List<Vehicle> vehicles) {
+        super.onPostExecute(vehicles);
+        Log.d("ON POST EXECUTE", ((Integer) vehicles.size()).toString());
+        for (MarkerDetails mark : currentlyDisplayed) {
+            int solved = 0;
+            for (Vehicle vehicle : vehicles) {
+                if (mark.getVehicle().id.equals(vehicle.id)) {
+                    solved = 1;
+                   // mark.getMarker().setPosition(new LatLng(vehicle.lat, vehicle.lon));
+                    animateMarker(mark.getMarker(),new LatLng(vehicle.lat, vehicle.lon), false);
+                }
+            }
+            if (solved == 0) {
+                mark.getMarker().remove();
+                currentlyDisplayed.remove(mark);
+            }
+        }
+        for (Vehicle vehicle : vehicles) {
+            int found = 0;
+            for (MarkerDetails mark : currentlyDisplayed) {
+                if (mark.getVehicle().id.equals(vehicle.id)) {
+                    found = 1;
+                }
+            }
+            if (found == 0) {
+                Marker marker = mMap.addMarker(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.tram_icon_small))
+                        .position(new LatLng(vehicle.lat, vehicle.lon))
+                        .title(vehicle.shortName));
+                currentlyDisplayed.add(new MarkerDetails(marker, vehicle));
+            }
+        }
 
     }
 
-    public List<Vehicle> requestVehicles(final LatLngBounds bounds) {
+    public void requestVehicles(final LatLngBounds bounds) {
         Log.d("requestVehicles", bounds.toString());
         RequestQueue requestQueue = VolleySingleton.getsInstance().getmRequestQueue();
         String url = "http://bpbp.ctrgn.net/api/device";
-        final Double accuracyLat = (bounds.southwest.latitude - bounds.northeast.latitude)*2;
-        final Double accuracyLon = (bounds.southwest.longitude - bounds.northeast.longitude)*2;
-        final List<Vehicle> vehicleList = new ArrayList<>();
-
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.d("Response", response);
-
+                        currentVehicleList = new ArrayList<>();
                         try {
                             JSONArray jsonArray = new JSONArray(response);
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -101,7 +139,7 @@ public class ShowVehicles extends AsyncTask<LatLngBounds, List<Vehicle>, List<Ve
                                         currentVehicle.vehicleTypeIcon = R.drawable.bus_icon1;
                                         break;
                                 }
-
+                                currentVehicle.id = (jsonArray.getJSONObject(i).getString("id"));
                                 currentVehicle.lon = Float.parseFloat(jsonArray.getJSONObject(i).getString("lon"));
                                 currentVehicle.lat = Float.parseFloat(jsonArray.getJSONObject(i).getString("lat"));
                                 currentVehicle.delay = jsonArray.getJSONObject(i).getString("delay");
@@ -111,21 +149,20 @@ public class ShowVehicles extends AsyncTask<LatLngBounds, List<Vehicle>, List<Ve
                                 currentVehicle.lastStop = jsonArray.getJSONObject(i).getString("lastStop");
                                 currentVehicle.nextStop = jsonArray.getJSONObject(i).getString("nextStop");
                                 currentVehicle.arrivalTime = jsonArray.getJSONObject(i).getString("arrivalTime");
-                                vehicleList.add(currentVehicle);
+                                currentVehicleList.add(currentVehicle);
                             }
 
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        publishProgress();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
-                        Log.d("Error.Response", error.getMessage());
+                        Log.d("Error.Response", "error");
                     }
                 }
         ) {
@@ -133,16 +170,49 @@ public class ShowVehicles extends AsyncTask<LatLngBounds, List<Vehicle>, List<Ve
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("requestContent", "vehiclesPositions");
-                params.put("lon", ((Double) bounds.getCenter().longitude).toString());
-                params.put("lat", ((Double)bounds.getCenter().latitude).toString());
-                params.put("accLat", accuracyLat.toString());
-                params.put("accLon", accuracyLon.toString());
+                params.put("northLon", ((Double) bounds.northeast.longitude).toString());
+                params.put("eastLat", ((Double) bounds.northeast.latitude).toString());
+                params.put("westLat", ((Double) bounds.southwest.latitude).toString());
+                params.put("southLon", ((Double) bounds.southwest.longitude).toString());
                 return params;
             }
         };
         requestQueue.add(postRequest);
-        return vehicleList;
     }
+    public void animateMarker(final Marker marker, final LatLng toPosition,
+                              final boolean hideMarker) {
+        final Handler handler = new Handler();
+        final long start = SystemClock.uptimeMillis();
+        Projection proj = mMap.getProjection();
+        Point startPoint = proj.toScreenLocation(marker.getPosition());
+        final LatLng startLatLng = proj.fromScreenLocation(startPoint);
+        final long duration = 500;
 
+        final Interpolator interpolator = new LinearInterpolator();
 
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                long elapsed = SystemClock.uptimeMillis() - start;
+                float t = interpolator.getInterpolation((float) elapsed
+                        / duration);
+                double lng = t * toPosition.longitude + (1 - t)
+                        * startLatLng.longitude;
+                double lat = t * toPosition.latitude + (1 - t)
+                        * startLatLng.latitude;
+                marker.setPosition(new LatLng(lat, lng));
+
+                if (t < 1.0) {
+                    // Post again 16ms later.
+                    handler.postDelayed(this, 16);
+                } else {
+                    if (hideMarker) {
+                        marker.setVisible(false);
+                    } else {
+                        marker.setVisible(true);
+                    }
+                }
+            }
+        });
+    }
 }
