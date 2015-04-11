@@ -73,8 +73,8 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.MyViewHold
 
         @Override
         public void onClick(View v) {
-            delete(getAdapterPosition());
-            Toast.makeText(context, "Item clicked at " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+            delete(getPosition());
+            Toast.makeText(context, "Item clicked at " + getPosition(), Toast.LENGTH_SHORT).show();
         }
     }
 }

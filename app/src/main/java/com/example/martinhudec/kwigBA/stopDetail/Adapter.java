@@ -85,7 +85,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(context, "Item clicked at " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Item clicked at " + getPosition(), Toast.LENGTH_SHORT).show();
         }
     }
 }
