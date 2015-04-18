@@ -2,12 +2,12 @@ package com.example.martinhudec.kwigBA.stopDetail;
 
 import android.app.Activity;
 import android.support.v4.app.NavUtils;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,20 +23,20 @@ import com.example.martinhudec.kwigBA.serverConnection.VolleySingleton;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-public class StopDetailsActivity extends ActionBarActivity {
+public class StopDetailsActivity extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener {
     Toolbar toolbar;
     RecyclerView recyclerView;
-    Adapter adapter;
+    StopDetailsAdapter stopDetailsAdapter;
     String stopName = null;
     List<RouteDetail> routeData = new ArrayList<>();
-
+    Activity activity;
+    SwipeRefreshLayout mSwipeRefreshStopDetail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,9 +53,14 @@ public class StopDetailsActivity extends ActionBarActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
+        activity = this;
+        mSwipeRefreshStopDetail = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshStopDetail);
+        mSwipeRefreshStopDetail.setOnRefreshListener(this);
 
-        final Activity activity = this;
+        requestStops();
+    }
 
+        public void requestStops(){
         RequestQueue requestQueue = VolleySingleton.getsInstance().getmRequestQueue();
         String url = "http://bpbp.ctrgn.net/api/device";
 
@@ -86,9 +91,12 @@ public class StopDetailsActivity extends ActionBarActivity {
                             }
                             Log.d("StopDetialsActivity","routeData size " + routeData.size());
                             if(!routeData.isEmpty()) {
-                                adapter = new Adapter(activity, routeData);
-                                recyclerView.setAdapter(adapter);
+                                stopDetailsAdapter = new StopDetailsAdapter(activity, routeData);
+                                recyclerView.setAdapter(stopDetailsAdapter);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+                                if(mSwipeRefreshStopDetail.isRefreshing()){
+                                    mSwipeRefreshStopDetail.setRefreshing(false);
+                                }
                             }
                             } catch (JSONException e) {
                             e.printStackTrace();
@@ -141,5 +149,10 @@ public class StopDetailsActivity extends ActionBarActivity {
             NavUtils.navigateUpFromSameTask(this);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRefresh() {
+        requestStops();
     }
 }

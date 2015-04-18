@@ -13,7 +13,11 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:layout_gravity="center" />
-
+    <TextView
+        android:id="@+id/markerStopVehicles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
     <com.gc.materialdesign.views.ButtonFlat
         android:id="@+id/markerButton"
         android:layout_width="wrap_content"
@@ -21,7 +25,7 @@
         android:background="#1E88E5"
         android:layout_gravity="center"
         android:clickable="true"
-        android:text="Show stop"
+        android:text="Show detail"
         />
 
 </LinearLayout>

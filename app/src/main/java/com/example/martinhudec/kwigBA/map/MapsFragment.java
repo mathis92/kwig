@@ -42,13 +42,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
-    private LocationManager locationManager;
-    private LocationListener locationListener;
-    private int camera = 0;
-
-    private LatLng ll;
-    private RequestSend rs;
-    private UpdateVehicleLocation updateVehicleLocation = null;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private MainActivity mainActivity;
     public InputStream stopsIS;
@@ -56,6 +49,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private ViewGroup markerInfoWindow = null;
     private TextView infoWindowTitle = null;
     private ButtonFlat infoWindowButton = null;
+    private TextView infoWindowVehicles = null;
     private View mapLayout = null;
     private List<MarkerDetails> currentlyDisplayedVehicles = null;
 
@@ -89,6 +83,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         markerInfoWindow = (ViewGroup) mainActivity.getLayoutInflater().inflate(R.layout.marker_info_window, null);
         infoWindowButton = (ButtonFlat) markerInfoWindow.findViewById(R.id.markerButton);
         infoWindowTitle = (TextView) markerInfoWindow.findViewById(R.id.markerTitle);
+        infoWindowVehicles = (TextView) markerInfoWindow.findViewById(R.id.markerStopVehicles);
         currentlyDisplayedVehicles = new CopyOnWriteArrayList<>();
 
 
@@ -100,13 +95,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     public void startLocManager() {
         Log.d("MapsFragment", " starting Location Manager");
-        locationManager = (LocationManager) mainActivity.getSystemService(Context.LOCATION_SERVICE);
 
 
-        String provider = locationManager.getBestProvider(new Criteria(), true);
-        Location loc = locationManager.getLastKnownLocation(provider);
-        Log.d("MapsFragment", loc.toString() + " provider " + provider);
-
+        Location loc = mainActivity.getLastKnownLocation();
         if (loc != null) {
             //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.162222,17.123807),15));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), 15));
@@ -131,9 +122,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
                 // Getting reference to the TextView to set title
                 TextView note = infoWindowTitle;
-
                 note.setText(marker.getTitle());
                 View button = infoWindowButton;
+                infoWindowVehicles.setText(marker.getSnippet());
                 Log.d("MapsFragment", "found button starting on click listener");
 
 
@@ -164,30 +155,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         //UpdateVehicleLocation vehicleLocation = new UpdateVehicleLocation(mMap, currentlyDisplayedVehicles);
         //vehicleLocation.execute();
-     //   UpdateLocation updateLocation = new UpdateLocation(mMap, currentlyDisplayedVehicles);
-      //  new Thread(updateLocation).start();
+        //   UpdateLocation updateLocation = new UpdateLocation(mMap, currentlyDisplayedVehicles);
+        //  new Thread(updateLocation).start();
 /*
         ShowVehicles showVehicles = new ShowVehicles(mMap, currentlyDisplayedVehicles);
         Log.d("BOUNDS", mMap.getProjection().getVisibleRegion().latLngBounds.toString());
         showVehicles.execute(mMap.getProjection().getVisibleRegion().latLngBounds,mMap.getCameraPosition());
 */
-        locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-                ll = new LatLng(location.getLatitude(), location.getLongitude());
 
-            }
-
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-            }
-
-            public void onProviderEnabled(String provider) {
-            }
-
-            public void onProviderDisabled(String provider) {
-            }
-        };
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
     }
 
     @Override

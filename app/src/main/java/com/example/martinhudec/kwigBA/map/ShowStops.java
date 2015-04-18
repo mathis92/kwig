@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.martinhudec.kwigBA.NavigationDrawerFragment;
 import com.example.martinhudec.kwigBA.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -66,6 +67,7 @@ public class ShowStops extends AsyncTask<Object, List<Stop>, List<Stop>> {
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.stop_icon2))
                         .title(stop.getStopName())
                         .position(stop.getLatLng())
+                        .snippet(stop.getVehicles())
                         .visible(false));
                 markerList.add(new MarkerDetails(marker, stop));
 
@@ -103,14 +105,14 @@ public class ShowStops extends AsyncTask<Object, List<Stop>, List<Stop>> {
 
     public void drawStops(float zoom) {
         if (zoom > 14) {
-                for (MarkerDetails marker : markerList) {
-                    marker.getMarker().setVisible(true);
-                }
-            } else {
-                for (MarkerDetails marker : markerList) {
-                    marker.getMarker().setVisible(false);
-                }
+            for (MarkerDetails marker : markerList) {
+                marker.getMarker().setVisible(true);
             }
+        } else {
+            for (MarkerDetails marker : markerList) {
+                marker.getMarker().setVisible(false);
+            }
+        }
     }
 
     public List readJsonStream(InputStream in) throws IOException {
@@ -151,6 +153,7 @@ public class ShowStops extends AsyncTask<Object, List<Stop>, List<Stop>> {
         String name = null;
         Double lat = null;
         Double lon = null;
+        String vehicles = null;
 
         reader.beginObject();
         while (reader.hasNext()) {
@@ -163,12 +166,14 @@ public class ShowStops extends AsyncTask<Object, List<Stop>, List<Stop>> {
                 lat = reader.nextDouble();
             } else if (objName.equals("lon")) {
                 lon = reader.nextDouble();
+            }else if (objName.equals("vehicles")) {
+                vehicles = reader.nextString();
             } else {
                 reader.skipValue();
             }
         }
         reader.endObject();
-        return new Stop(id, name, lat, lon);
+        return new Stop(id, name, lat, lon, vehicles);
     }
 
 

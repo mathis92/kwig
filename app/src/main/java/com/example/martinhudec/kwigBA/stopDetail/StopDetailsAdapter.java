@@ -19,12 +19,12 @@ import java.util.List;
 /**
  * Created by martinhudec on 20/03/15.
  */
-public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
+public class StopDetailsAdapter extends RecyclerView.Adapter<StopDetailsAdapter.MyViewHolder> {
     private LayoutInflater inflator;
     List<RouteDetail> data = Collections.emptyList();
     private Context context;
 
-    public Adapter(Context context, List<RouteDetail> data) {
+    public StopDetailsAdapter(Context context, List<RouteDetail> data) {
         Log.d("mathis", "CONSTURCTOR");
         inflator = LayoutInflater.from(context);
         this.data = data;

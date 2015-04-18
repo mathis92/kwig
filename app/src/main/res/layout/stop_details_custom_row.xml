@@ -3,7 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    android:elevation="15dp"
+    android:elevation="10dp"
     android:id="@+id/stop_custom_row">
 
     <ImageView
@@ -16,7 +16,7 @@
         android:elevation="15dp"
         android:gravity="center"
         android:layout_marginRight="16dp"
-        android:layout_centerVertical="true" />
+        />
 
     <TextView
         android:id="@+id/stop_custom_row_route_id"
@@ -28,7 +28,6 @@
         android:gravity="center"
         android:layout_gravity="center_vertical"
         android:text="39 "
-        android:layout_centerVertical="true"
         android:layout_marginLeft="0dp"
         />
 
@@ -40,25 +39,26 @@
         android:gravity="center"
         android:layout_gravity="center_vertical"
         android:text="DUMMY "
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="0dp" />
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
         android:gravity="center_vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:text="DUMMY "
             android:id="@+id/stop_custom_row_route_arrival_time" />
 
         <TextView
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/stop_custom_row_route_delay"

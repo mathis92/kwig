@@ -1,12 +1,9 @@
 package com.example.martinhudec.kwigBA.map;
 
-import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
@@ -18,8 +15,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.martinhudec.kwigBA.R;
 import com.example.martinhudec.kwigBA.serverConnection.VolleySingleton;
-import com.example.martinhudec.kwigBA.stopDetail.Adapter;
-import com.example.martinhudec.kwigBA.stopDetail.RouteDetail;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -36,7 +31,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by martinhudec on 06/04/15.

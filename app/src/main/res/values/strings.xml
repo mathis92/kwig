@@ -24,7 +24,6 @@
     <string name="search_hint">hint</string>
     <string-array name="tabs">
         <item>MAPS</item>
-        <item>FIND</item>
         <item>NEAR</item>
     </string-array>
 

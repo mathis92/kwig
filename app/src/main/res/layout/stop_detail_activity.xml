@@ -5,15 +5,20 @@
     android:orientation="vertical"
     tools:context="com.example.martinhudec.kwigBA.stopDetail.StopDetailsActivity">
 
-    <include android:id="@+id/app_bar"
-        layout="@layout/app_bar"/>
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_below="@+id/containerDrawerImage"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshStopDetail"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
-
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_below="@+id/containerDrawerImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#727272" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

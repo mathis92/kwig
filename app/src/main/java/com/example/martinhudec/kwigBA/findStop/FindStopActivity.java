@@ -1,9 +1,7 @@
 package com.example.martinhudec.kwigBA.findStop;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.SearchManager;
-import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,10 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,7 +27,7 @@ import com.example.martinhudec.kwigBA.R;
 import com.example.martinhudec.kwigBA.equip.ReadJsonStops;
 import com.example.martinhudec.kwigBA.serverConnection.VolleySingleton;
 
-import com.example.martinhudec.kwigBA.stopDetail.Adapter;
+import com.example.martinhudec.kwigBA.stopDetail.StopDetailsAdapter;
 import com.example.martinhudec.kwigBA.stopDetail.RouteDetail;
 
 import org.json.JSONArray;
@@ -50,7 +45,7 @@ public class FindStopActivity extends ActionBarActivity {
 
     Toolbar toolbar;
     RecyclerView recyclerView;
-    Adapter adapter;
+    StopDetailsAdapter stopDetailsAdapter;
     private TextView txtQuery;
     Activity activity;
     ReadJsonStops jsonStops;
@@ -181,9 +176,9 @@ public class FindStopActivity extends ActionBarActivity {
                             }
                             Log.d("StopDetialsActivity", "routeData size " + routeData.size());
                             if (!routeData.isEmpty()) {
-                                adapter = new Adapter(activity, routeData);
+                                stopDetailsAdapter = new StopDetailsAdapter(activity, routeData);
                                 recyclerView.removeAllViews();
-                                recyclerView.setAdapter(adapter);
+                                recyclerView.setAdapter(stopDetailsAdapter);
                                recyclerView.setLayoutManager(new LinearLayoutManager(activity));
                             }
                         } catch (JSONException e) {

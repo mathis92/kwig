@@ -1,9 +1,11 @@
 package com.example.martinhudec.kwigBA.equip;
 
+import android.location.Location;
 import android.os.AsyncTask;
 import android.util.JsonReader;
 import android.util.Log;
 
+import com.example.martinhudec.kwigBA.R;
 import com.example.martinhudec.kwigBA.map.Stop;
 
 import java.io.IOException;
@@ -11,6 +13,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -23,7 +28,6 @@ public class ReadJsonStops extends AsyncTask<String, Void, Void> {
 
     public ReadJsonStops(InputStream stream) {
         this.stream = stream;
-
     }
 
     @Override
@@ -36,6 +40,51 @@ public class ReadJsonStops extends AsyncTask<String, Void, Void> {
 
         return null;
     }
+
+    public List<Stop> getStopList() {
+        return stopList;
+    }
+
+    public List<Stop> getNearStops(Location location) {
+        final List<Stop> nearStops = new ArrayList<>();
+        final List<Stop> farStops = new ArrayList<>();
+        Log.d("READ JSON STOPS", ((Integer) stopList.size()).toString()
+        );
+        for (Stop stop : stopList) {
+            Location currentStopLocation = new Location("SYSTEM");
+            currentStopLocation.setLatitude(stop.getLat());
+            currentStopLocation.setLongitude(stop.getLon());
+            Float distance = location.distanceTo(currentStopLocation);
+            if (distance <= 500) {
+
+                stop.setDistanceTo(distance);
+              //  Log.d("stopName", stop.getStopName() + " " + stop.getDistanceTo());
+                nearStops.add(stop);
+            } else if (distance < 2000 && distance > 500) {
+                stop.setDistanceTo(distance);
+                farStops.add(stop);
+              //  Log.d("stopName", stop.getStopName() + " " + stop.getDistanceTo());
+            }
+        }
+        if (nearStops.size() < 3) {
+            Collections.sort(farStops);
+            int index = 0;
+            for (int i = nearStops.size(); i < 3; i++) {
+                nearStops.add(farStops.get(index));
+            }
+            index++;
+        }
+        Collections.sort(nearStops);
+
+        List<Stop> availableStops = nearStops.subList(0,3);
+
+        for (Stop stop : availableStops) {
+            Log.d("READ JSON STOPS", stop.getStopName() + " " + (stop.getDistanceTo().toString()));
+        }
+        return availableStops;
+    }
+
+
 
     public List<String> getStopSuggestions(final String s) {
         final List<String> suggestedStops = new ArrayList<>();
