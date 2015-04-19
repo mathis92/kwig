@@ -10,23 +10,18 @@
     <LinearLayout
         android:id="@+id/containerDrawerImage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <ImageView
             android:layout_marginTop="@dimen/margin_top"
             android:layout_width="match_parent"
-
             android:layout_height="140dp"
-
-            android:src="@drawable/android4" />
-
+            android:src="@drawable/icon" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/options"/>
     </LinearLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/drawerRecycler"
-        android:layout_below="@+id/containerDrawerImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

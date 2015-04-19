@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +17,10 @@ import android.widget.TextView;
 import com.example.martinhudec.kwigBA.R;
 import com.example.martinhudec.kwigBA.map.InterfaceVehicle;
 import com.example.martinhudec.kwigBA.map.Vehicle;
+import com.example.martinhudec.kwigBA.stopDetail.StopDetailsAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class VehicleDetailsActivity extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener {
@@ -28,6 +35,9 @@ public class VehicleDetailsActivity extends ActionBarActivity implements SwipeRe
     TextView lastStop;
     TextView nextStop;
     ImageView vehicleImage;
+    CardView cardView;
+    RecyclerView recyclerView;
+    VehicleDetailsAdapter vehicleDetailsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +52,13 @@ public class VehicleDetailsActivity extends ActionBarActivity implements SwipeRe
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        cardView = (CardView) findViewById(R.id.card_view);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView = (RecyclerView) findViewById(R.id.vehicle_detail_recycler_view);
+        recyclerView.setLayoutManager(layoutManager);
+
+
 
         activity = this;
         mSwipeRefreshVehicleDetail = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshVehicleDetail);
@@ -52,22 +69,9 @@ public class VehicleDetailsActivity extends ActionBarActivity implements SwipeRe
 
     public void showVehicleDetails() {
 
-        headingTo = (TextView) findViewById(R.id.vehicleHeadingTo);
-        shortName = (TextView) findViewById(R.id.vehicleShortName);
-        vehicleImage = (ImageView) findViewById(R.id.vehicleImage);
-        arrivalTime = (TextView) findViewById(R.id.vehicleArrivalTime);
-        delay = (TextView) findViewById(R.id.vehicleDelay);
-        lastStop = (TextView) findViewById(R.id.vehicleLastStop);
-        nextStop = (TextView) findViewById(R.id.vehicleNextStop);
-
-        headingTo.setText(vehicle.getHeadingTo());
-        shortName.setText(vehicle.getShortName());
-        vehicleImage.setImageAlpha(R.drawable.tram_icon);
-        arrivalTime.setText(vehicle.getArrivalTime());
-        delay.setText(vehicle.getDelay());
-        lastStop.setText(vehicle.getLastStop());
-        nextStop.setText(vehicle.getNextStop());
-
+        vehicleDetailsAdapter = new VehicleDetailsAdapter(activity, vehicle);
+        recyclerView.setAdapter(vehicleDetailsAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         if (mSwipeRefreshVehicleDetail.isRefreshing()) {
             mSwipeRefreshVehicleDetail.setRefreshing(false);
         }

@@ -90,10 +90,10 @@ public class NavigationDrawerFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-        recyclerView = (RecyclerView) layout.findViewById(R.id.drawerRecycler);
-        drawerAdapter = new DrawerAdapter(getActivity(),getData());
-        recyclerView.setAdapter(drawerAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //recyclerView = (RecyclerView) layout.findViewById(R.id.drawerRecycler);
+        //drawerAdapter = new DrawerAdapter(getActivity(),getData());
+        //recyclerView.setAdapter(drawerAdapter);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         Log.d("mathis","oncreateView");
 
         return layout;

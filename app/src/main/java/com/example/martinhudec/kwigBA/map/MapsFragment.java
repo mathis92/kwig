@@ -48,7 +48,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private UpdateVehiclePositions updateVehiclePositions;
     private Boolean locationManagerOn;
     private HashMap<Marker, Object> markerObjectHashMap = new HashMap<>();
-
+    private Boolean preventSleep = false;
 
     public MapsFragment() {
         // Required empty public constructor
@@ -70,18 +70,27 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onPause() {
-        super.onPause();
-        Log.d("MAPSFRAGMENT", "onPause");
-        stopUpdatingVehiclePositions();
+        if (preventSleep) {
+            Log.d("MAPSFRAGMENT", "preventSleep on");
+        } else {
+            super.onPause();
+            Log.d("MAPSFRAGMENT", "onPause");
+            stopUpdatingVehiclePositions();
+        }
     }
 
     @Override
     public void onResume() {
+    if(preventSleep){
+        Log.d("MAPSFRAGMENT", "preventSleep off");
+        preventSleep = false;
+    }else {
         super.onResume();
         Log.d("MAPSFRAGMENT", "onResume");
-        if (locationManagerOn == true) {
+        if (locationManagerOn) {
             startUpdatingVehiclePositions();
         }
+    }
     }
 
     @Override
@@ -102,6 +111,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+    }
+
+
 
     public void startLocManager() {
         Log.d("MapsFragment", " starting Location Manager");
@@ -111,7 +132,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         if (loc != null) {
             //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.162222,17.123807),15));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), 15));
-            startLocation = loc;
+           // startLocation = loc;
         }
         mMap.setInfoWindowAdapter(new InfoWindowAdapter(mainActivity, markerObjectHashMap, mMap));
 
@@ -122,6 +143,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
 
     }
+public void preventSleep(){
+    preventSleep = true;
+}
 
     public void stopUpdatingVehiclePositions() {
         updateVehiclePositions.stopUpdate();

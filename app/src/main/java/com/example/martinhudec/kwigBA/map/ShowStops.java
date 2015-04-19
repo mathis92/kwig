@@ -16,6 +16,7 @@ import com.example.martinhudec.kwigBA.equip.ReadJsonStops;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -70,7 +71,19 @@ public class ShowStops extends AsyncTask<Object, List<Stop>, List<Stop>> {
     protected void onPostExecute(List<Stop> stops) {
         super.onPostExecute(stops);
         Log.d("ON POST EXECUTE", ((Integer) stops.size()).toString());
-
+        for (MarkerDetails mark : currentlyDisplayed) {
+            int solved = 0;
+            for (Stop stop : stops) {
+                if (stop.getStopName().equals(mark.getStop().getStopName())) {
+                    solved = 1;
+                    // mark.getMarker().setPosition(new LatLng(vehicle.lat, vehicle.lon));
+                }
+            }
+            if (solved == 0) {
+                mark.getMarker().remove();
+                currentlyDisplayed.remove(mark);
+            }
+        }
         for (Stop stop : stops) {
 
             int found = 0;

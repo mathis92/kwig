@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -47,25 +48,33 @@ import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 
 
-public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.OnFragmentInteractionListener, MaterialTabListener, OnMapReadyCallback {
+public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.OnFragmentInteractionListener, MaterialTabListener {
     private Toolbar toolbar;
     private ViewPager viewPager;
     private MaterialTabHost tabHost;
     private LocationManager locationManager;
+    private MapsFragment mapsFragment;
+    private NearFragment nearFragment;
     private LocationListener locationListener;
+    private String MAPS_FRAGMENT_TAG = "mapFragment";
     private List<Fragment> fragmentList;
     private Location newLocation;
     public static android.app.FragmentManager fragmentManager;
+    private Bundle savedInstanceState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.savedInstanceState = savedInstanceState;
+        Log.d("MAIN ACTIVITY", "onCREATE");
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         fragmentManager = getFragmentManager();
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+
+
         setTitle("KWiG");
         fragmentList = new ArrayList<>();
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
@@ -86,7 +95,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                             .setTabListener(this)
             );
         }
-    startLocManager();
+        startLocManager();
     }
 
 
@@ -128,7 +137,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         return loc;
     }
 
-    public Location getCurrentLocation(){
+    public Location getCurrentLocation() {
         return newLocation;
     }
 
@@ -159,18 +168,18 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     @Override
     public void onTabSelected(MaterialTab materialTab) {
         viewPager.setCurrentItem(materialTab.getPosition());
-        switch (materialTab.getPosition()){
-            case 1:{
-                ((NearFragment)fragmentList.get(1)).showStopsInRecyclerView();
+        switch (materialTab.getPosition()) {
+            case 1: {
+                ((NearFragment) fragmentList.get(1)).showStopsInRecyclerView();
             }
         }
     }
 
     @Override
     public void onTabReselected(MaterialTab materialTab) {
-        switch (materialTab.getPosition()){
-            case 1:{
-                ((NearFragment)fragmentList.get(1)).showStopsInRecyclerView();
+        switch (materialTab.getPosition()) {
+            case 1: {
+                ((NearFragment) fragmentList.get(1)).showStopsInRecyclerView();
             }
         }
     }
@@ -181,9 +190,10 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     }
 
 
-
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+
 
     }
 
@@ -202,23 +212,38 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             InputStream stopsIS = getResources().openRawResource(R.raw.stops_json_object);
             switch (position) {
                 case 0: {
-
-                    MapsFragment mapsFragment = MapsFragment.getInstance(position);
+                    mapsFragment = MapsFragment.getInstance(position);
                     mapsFragment.setInputStream(stopsIS);
                     fragment = (Fragment) mapsFragment;
                     fragmentList.add(fragment);
+
+               /*
+                    if (savedInstanceState == null) {
+                        mapsFragment = MapsFragment.getInstance(position);
+                        getSupportFragmentManager()
+                                .beginTransaction().remove(mapsFragment)
+                                .add(R.id.mainActivity, mapsFragment, MAPS_FRAGMENT_TAG)
+                                .addToBackStack(MAPS_FRAGMENT_TAG).commit();
+
+                        mapsFragment.setInputStream(stopsIS);
+                        fragment = (Fragment) mapsFragment;
+                        fragmentList.add(fragment);
+
+
+                    }else {
+                        mapsFragment = (MapsFragment) getSupportFragmentManager().findFragmentByTag(MAPS_FRAGMENT_TAG);
+                        fragment = mapsFragment;
+                    }
+*/
                     break;
                 }
                 case 1: {
-                    fragment = NearFragment.getInstance(position);
+                    nearFragment = NearFragment.getInstance(position);
+                    fragment = nearFragment;
                     fragmentList.add(fragment);
                     break;
                 }
-           /*     case 2: {
-                    fragment = MyFragment.getInstance(position);
-                    break;
-                }
-                */
+
             }
             return fragment;
         }
@@ -235,28 +260,20 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     }
 
-    public static class MyFragment extends Fragment {
-        TextView textView;
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("MAIN ACTIVITY", "onPause");
 
-        public static MyFragment getInstance(int position) {
-            MyFragment myFragment = new MyFragment();
-            Bundle args = new Bundle();
-            args.putInt("position", position);
-            myFragment.setArguments(args);
-            return myFragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View layout = inflater.inflate(R.layout.fragment_my, container, false);
-            textView = (TextView) layout.findViewById(R.id.position);
-            Bundle bundle = getArguments();
-            if (bundle != null) {
-                textView.setText("selected tab " + bundle.getInt("position"));
-            }
-
-            return layout;
-        }
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("MAIN ACTIVITY", "onResume");
+
+    }
+
 
 }

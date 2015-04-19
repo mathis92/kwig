@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TabTest</string>
+    <string name="app_name">KWiG</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -25,6 +25,15 @@
     <string-array name="tabs">
         <item>MAPS</item>
         <item>NEAR</item>
+    </string-array>
+    <string-array name="vehicle_detail">
+        <item>Short name</item>
+        <item>Next stop</item>
+        <item>Heading to</item>
+        <item>Next stop arrival time</item>
+        <item>Delay</item>
+        <item>Last stop</item>
+        <item>Speed</item>
     </string-array>
 
 </resources>
