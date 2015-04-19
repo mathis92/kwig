@@ -40,10 +40,12 @@ public class ShowVehicles extends AsyncTask<Object, List<Vehicle>, List<Vehicle>
 
     List<MarkerDetails> currentlyDisplayed = null;
     List<Vehicle> currentVehicleList = null;
+    HashMap<Marker, Object> markerObjectHashMap;
 
-    public ShowVehicles(GoogleMap mMap, List<MarkerDetails> currentlyDisplayed) {
+    public ShowVehicles(GoogleMap mMap, List<MarkerDetails> currentlyDisplayed, HashMap<Marker, Object> markerObjectHashMap) {
         this.mMap = mMap;
         this.currentlyDisplayed = currentlyDisplayed;
+        this.markerObjectHashMap = markerObjectHashMap;
     }
 
     @Override
@@ -68,7 +70,6 @@ public class ShowVehicles extends AsyncTask<Object, List<Vehicle>, List<Vehicle>
     @Override
     protected void onProgressUpdate(List<Vehicle>... values) {
         super.onProgressUpdate(values);
-        Log.d("ON PROGRESS MADABIX", ((Integer) currentVehicleList.size()).toString());
     }
 
     @Override
@@ -102,6 +103,7 @@ public class ShowVehicles extends AsyncTask<Object, List<Vehicle>, List<Vehicle>
                         .position(new LatLng(vehicle.lat, vehicle.lon))
                         .title(vehicle.shortName));
                 currentlyDisplayed.add(new MarkerDetails(marker, vehicle));
+                markerObjectHashMap.put(marker,vehicle);
             }
         }
 

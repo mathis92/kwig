@@ -25,7 +25,6 @@ import com.example.martinhudec.kwigBA.R;
 import com.example.martinhudec.kwigBA.RequestSend;
 import com.example.martinhudec.kwigBA.equip.ReadJsonStops;
 import com.example.martinhudec.kwigBA.map.Stop;
-import com.example.martinhudec.kwigBA.map.UpdateVehicleLocation;
 import com.example.martinhudec.kwigBA.map.MarkerDetails;
 import com.example.martinhudec.kwigBA.serverConnection.VolleySingleton;
 import com.example.martinhudec.kwigBA.stopDetail.RouteDetail;
@@ -58,7 +57,6 @@ public class NearFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     private LatLng ll;
     private RequestSend rs;
-    private UpdateVehicleLocation updateVehicleLocation = null;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private MainActivity mainActivity;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -116,12 +114,13 @@ public class NearFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             RequestQueue requestQueue = VolleySingleton.getsInstance().getmRequestQueue();
             String url = "http://bpbp.ctrgn.net/api/device";
             final StopDetailsWithRoutes stopDetailsWithRoutes = new StopDetailsWithRoutes();
-            stopDetailsWithRoutes.stop = stop;
+
             final int finalI = i;
             StringRequest postRequest = new StringRequest(com.android.volley.Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            stopDetailsWithRoutes.stop = stop;
                             Log.d("Response", response);
                             List<RouteDetail> routeDetails = new ArrayList<>();
                             try {
@@ -147,11 +146,12 @@ public class NearFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                                     routeDetails.add(current);
                                 }
 
-                                Log.d("StopDetialsActivity", "routeData size " + stop.getStopName());
+
                                 stopDetailsWithRoutes.routeDetailList = routeDetails;
                                 stopDetailsWithRoutesList.add(stopDetailsWithRoutes);
-                                if (finalI + 1 == nearStops.size()) {
-
+                             //   Log.d("StopDetialsActivity", "routeData size " + stop.getStopName() + " near stop size " + nearStops.size() + " finalI " + finalI + " stopDetalisWithRoutesListSize " + stopDetailsWithRoutesList.size());
+                             //   if (finalI + 1 == nearStops.size() && stopDetailsWithRoutesList.size() == nearStops.size()) {
+                                    if (stopDetailsWithRoutesList.size() == nearStops.size()) {
                                     NearStopsAdapter nearStopsAdapter = new NearStopsAdapter(mainActivity, stopDetailsWithRoutesList);
                                     recyclerView.setAdapter(nearStopsAdapter);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));

@@ -8,19 +8,19 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/markerTitle"
+        android:id="@+id/vehicleMarkerTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:layout_gravity="center" />
     <TextView
         android:paddingTop="2dp"
-        android:id="@+id/markerStopVehicles"
-        android:layout_width="80dp"
+        android:id="@+id/vehicleMarkerHeadingto"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
     <com.gc.materialdesign.views.ButtonFlat
-        android:id="@+id/markerButton"
+        android:id="@+id/vehicleMarkerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#1E88E5"

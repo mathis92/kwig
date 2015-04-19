@@ -50,6 +50,15 @@
                 android:value="com.example.martinhudec.kwigBA.MainActivity" />
         </activity>
         <activity
+            android:name=".vehicleDetail.VehicleDetailsActivity"
+            android:label="@string/title_activity_sub"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden">>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.martinhudec.kwigBA.MainActivity" />
+        </activity>
+        <activity
             android:name=".findStop.FindStopActivity"
             android:label="@string/title_find_stop_activity"
             android:screenOrientation="portrait"

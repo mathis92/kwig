@@ -91,7 +91,8 @@ public class NearStopsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
-        Log.d("mathis", "on bind view holder " + position);
+        Log.d("mathis", "on bind view holder " + position + " datasize " + data.size() );
+
         switch (getItemViewType(position)) {
             case 0:
                 ((StopDetailViewHolder) holder).stopName.setText(data.get(getStopDataPostition(position)).stop.getStopName());

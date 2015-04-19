@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.martinhudec.kwigBA.R;
 import com.example.martinhudec.kwigBA.map.Stop;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,6 +46,19 @@ public class ReadJsonStops extends AsyncTask<String, Void, Void> {
         return stopList;
     }
 
+    public List<Stop> getBoundsList(LatLngBounds bounds) {
+        List<Stop> boundsStopList = new ArrayList<>();
+        Log.d("getBoundsList", "bounds");
+        for (Stop stop : stopList) {
+            if (bounds.contains(stop.getLatLng())) {
+                Log.d("getBoundsList", stop.getStopName());
+                boundsStopList.add(stop);
+            }
+        }
+        return boundsStopList;
+    }
+
+
     public List<Stop> getNearStops(Location location) {
         final List<Stop> nearStops = new ArrayList<>();
         final List<Stop> farStops = new ArrayList<>();
@@ -58,12 +72,12 @@ public class ReadJsonStops extends AsyncTask<String, Void, Void> {
             if (distance <= 500) {
 
                 stop.setDistanceTo(distance);
-              //  Log.d("stopName", stop.getStopName() + " " + stop.getDistanceTo());
+                //  Log.d("stopName", stop.getStopName() + " " + stop.getDistanceTo());
                 nearStops.add(stop);
             } else if (distance < 2000 && distance > 500) {
                 stop.setDistanceTo(distance);
                 farStops.add(stop);
-              //  Log.d("stopName", stop.getStopName() + " " + stop.getDistanceTo());
+                //  Log.d("stopName", stop.getStopName() + " " + stop.getDistanceTo());
             }
         }
         if (nearStops.size() < 3) {
@@ -76,14 +90,13 @@ public class ReadJsonStops extends AsyncTask<String, Void, Void> {
         }
         Collections.sort(nearStops);
 
-        List<Stop> availableStops = nearStops.subList(0,3);
+        List<Stop> availableStops = nearStops.subList(0, 3);
 
         for (Stop stop : availableStops) {
             Log.d("READ JSON STOPS", stop.getStopName() + " " + (stop.getDistanceTo().toString()));
         }
         return availableStops;
     }
-
 
 
     public List<String> getStopSuggestions(final String s) {
@@ -142,6 +155,7 @@ public class ReadJsonStops extends AsyncTask<String, Void, Void> {
         String name = null;
         Double lat = null;
         Double lon = null;
+        String vehicle = null;
 
         reader.beginObject();
         while (reader.hasNext()) {
@@ -154,12 +168,15 @@ public class ReadJsonStops extends AsyncTask<String, Void, Void> {
                 lat = reader.nextDouble();
             } else if (objName.equals("lon")) {
                 lon = reader.nextDouble();
+            } else if (objName.equals("vehicles")) {
+                vehicle = reader.nextString();
             } else {
                 reader.skipValue();
             }
         }
         reader.endObject();
-        return new Stop(id, name, lat, lon);
+        return new Stop(id, name, lat, lon, vehicle);
     }
+
 
 }

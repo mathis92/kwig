@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.martinhudec.kwigBA.NavigationDrawerFragment;
 import com.example.martinhudec.kwigBA.R;
+import com.example.martinhudec.kwigBA.equip.ReadJsonStops;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -23,157 +24,73 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by martinhudec on 26/03/15.
  */
 public class ShowStops extends AsyncTask<Object, List<Stop>, List<Stop>> {
     GoogleMap mMap = null;
-    List<MarkerDetails> markerList = null;
-    List<Marker> currentlyDisplayed = null;
+    List<MarkerDetails> currentlyDisplayed = null;
+    List<Stop> currentStopList;
     List stopList = null;
     CameraPosition cameraPosition = null;
+    ReadJsonStops jsonStops;
+    HashMap<Marker, Object> markerObjectHashMap;
 
-    public ShowStops(GoogleMap mMap) {
+    public ShowStops(GoogleMap mMap, List<MarkerDetails> currentlyDisplayed, ReadJsonStops jsonStops, HashMap<Marker, Object> markerObjectHashMap) {
         this.mMap = mMap;
-        currentlyDisplayed = new ArrayList<>();
+        this.currentlyDisplayed = currentlyDisplayed;
+        this.jsonStops = jsonStops;
+        this.markerObjectHashMap = markerObjectHashMap;
+
 
     }
 
 
     @Override
     protected List<Stop> doInBackground(Object... params) {
-        // List<Stop> stopList = (List<Stop>) params[0];
-        cameraPosition = (CameraPosition) params[0];
-        try {
-            if (stopList == null) {
-                stopList = readJsonStream((InputStream) params[1]);
-            }
-            publishProgress(stopList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        return null;
+        cameraPosition = (CameraPosition) params[1];
+        if (cameraPosition.zoom > 14) {
+            Log.d("SHOW STOPS", "read json stops");
+
+            currentStopList = jsonStops.getBoundsList((LatLngBounds) params[0]);
+
+        } else {
+            currentStopList = new ArrayList<>();
+        }
+        return currentStopList;
+
     }
 
     @Override
-    protected void onProgressUpdate(List<Stop>... values) {
-        if (markerList == null) {
-            markerList = new ArrayList<>();
-            for (Stop stop : values[0]) {
+    protected void onPostExecute(List<Stop> stops) {
+        super.onPostExecute(stops);
+        Log.d("ON POST EXECUTE", ((Integer) stops.size()).toString());
+
+        for (Stop stop : stops) {
+
+            int found = 0;
+            for (MarkerDetails mark : currentlyDisplayed) {
+                if (mark.getStop().stopName.equals(stop.getStopName())) {
+                    found = 1;
+                }
+            }
+            Log.d("SHOW STOPS", "found = " + found +" " + stop.getStopName());
+            if (found == 0) {
+                Log.d("SHOW STOPS", "found =0 " + stop.getStopName() + stop.getVehicles());
                 Marker marker = mMap.addMarker(new MarkerOptions()
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.stop_icon2))
                         .title(stop.getStopName())
                         .position(stop.getLatLng())
-                        .snippet(stop.getVehicles())
-                        .visible(false));
-                markerList.add(new MarkerDetails(marker, stop));
-
-            }
-            drawStops(cameraPosition.zoom);
-        }
-        //      mMap.setOnCameraChangeListener(getCameraChangeListener(values[0]));
-        mMap.setOnMarkerClickListener(getOnMarkerClickListener());
-    }
-
-    public GoogleMap.OnCameraChangeListener getCameraChangeListener(final List<Stop> values) {
-
-        return new GoogleMap.OnCameraChangeListener() {
-            @Override
-            public void onCameraChange(CameraPosition position) {
-                Log.d("Zoom", "Zoom: " + position.zoom);
-                LatLngBounds bounds = mMap.getProjection().getVisibleRegion().latLngBounds;
-                Log.d("bounds", "Bounds " + bounds.getCenter() + " " + bounds.southwest + " " + bounds.northeast);
-                drawStops(position.zoom);
-            }
-        };
-    }
-
-    public GoogleMap.OnMarkerClickListener getOnMarkerClickListener() {
-        return new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                marker.showInfoWindow();
-
-                return false;
-            }
-        };
-    }
-
-
-    public void drawStops(float zoom) {
-        if (zoom > 14) {
-            for (MarkerDetails marker : markerList) {
-                marker.getMarker().setVisible(true);
-            }
-        } else {
-            for (MarkerDetails marker : markerList) {
-                marker.getMarker().setVisible(false);
+                        .snippet(stop.getVehicles()));
+                currentlyDisplayed.add(new MarkerDetails(marker, stop));
+                markerObjectHashMap.put(marker,stop);
             }
         }
-    }
-
-    public List readJsonStream(InputStream in) throws IOException {
-        JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
-        try {
-            return readStopsObject(reader);
-        } finally {
-            reader.close();
-        }
-    }
-
-    public List readStopsObject(JsonReader reader) throws IOException {
-        List stops = new ArrayList();
-        reader.beginObject();
-        while (reader.hasNext()) {
-            String objName = reader.nextName();
-            if (objName.equals("stops")) {
-                stops = readStopsArray(reader);
-            }
-        }
-        reader.close();
-        return stops;
-    }
-
-    public List readStopsArray(JsonReader reader) throws IOException {
-        List stops = new ArrayList();
-
-        reader.beginArray();
-        while (reader.hasNext()) {
-            stops.add(readStops(reader));
-        }
-        reader.endArray();
-        return stops;
-    }
-
-    public Stop readStops(JsonReader reader) throws IOException {
-        long id = -1;
-        String name = null;
-        Double lat = null;
-        Double lon = null;
-        String vehicles = null;
-
-        reader.beginObject();
-        while (reader.hasNext()) {
-            String objName = reader.nextName();
-            if (objName.equals("id")) {
-                id = reader.nextLong();
-            } else if (objName.equals("name")) {
-                name = reader.nextString();
-            } else if (objName.equals("lat")) {
-                lat = reader.nextDouble();
-            } else if (objName.equals("lon")) {
-                lon = reader.nextDouble();
-            }else if (objName.equals("vehicles")) {
-                vehicles = reader.nextString();
-            } else {
-                reader.skipValue();
-            }
-        }
-        reader.endObject();
-        return new Stop(id, name, lat, lon, vehicles);
     }
 
 
