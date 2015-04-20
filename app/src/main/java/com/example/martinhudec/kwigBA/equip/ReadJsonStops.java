@@ -1,11 +1,12 @@
 package com.example.martinhudec.kwigBA.equip;
 
+import android.app.Activity;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.util.JsonReader;
 import android.util.Log;
 
-import com.example.martinhudec.kwigBA.R;
+import com.example.martinhudec.kwigBA.findStop.FindStopActivity;
 import com.example.martinhudec.kwigBA.map.Stop;
 import com.google.android.gms.maps.model.LatLngBounds;
 
@@ -14,11 +15,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Created by martinhudec on 11/04/15.
@@ -26,6 +24,12 @@ import java.util.regex.Pattern;
 public class ReadJsonStops extends AsyncTask<String, Void, Void> {
     List<Stop> stopList = new ArrayList<>();
     InputStream stream;
+    FindStopActivity activity;
+
+    public ReadJsonStops(InputStream stream, Activity activity) {
+        this.stream = stream;
+        this.activity = (FindStopActivity) activity;
+    }
 
     public ReadJsonStops(InputStream stream) {
         this.stream = stream;
@@ -42,16 +46,24 @@ public class ReadJsonStops extends AsyncTask<String, Void, Void> {
         return null;
     }
 
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        if (activity != null) {
+            activity.fillRecyclerViewWithFoundStops("");
+        }
+    }
+
     public List<Stop> getStopList() {
         return stopList;
     }
 
     public List<Stop> getBoundsList(LatLngBounds bounds) {
         List<Stop> boundsStopList = new ArrayList<>();
-        Log.d("getBoundsList", "bounds");
+      //  Log.d("getBoundsList", "bounds");
         for (Stop stop : stopList) {
             if (bounds.contains(stop.getLatLng())) {
-                Log.d("getBoundsList", stop.getStopName());
+        //        Log.d("getBoundsList", stop.getStopName());
                 boundsStopList.add(stop);
             }
         }
@@ -62,8 +74,7 @@ public class ReadJsonStops extends AsyncTask<String, Void, Void> {
     public List<Stop> getNearStops(Location location) {
         final List<Stop> nearStops = new ArrayList<>();
         final List<Stop> farStops = new ArrayList<>();
-        Log.d("READ JSON STOPS", ((Integer) stopList.size()).toString()
-        );
+        //Log.d("READ JSON STOPS", ((Integer) stopList.size()).toString());
         for (Stop stop : stopList) {
             Location currentStopLocation = new Location("SYSTEM");
             currentStopLocation.setLatitude(stop.getLat());

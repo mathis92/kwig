@@ -56,9 +56,10 @@ public class FindStopActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.find_stop_activity);
 
-        jsonStops = new ReadJsonStops(getResources().openRawResource(R.raw.stops_json_object));
+        jsonStops = new ReadJsonStops(getResources().openRawResource(R.raw.stops_json_object), this);
         jsonStops.execute();
         // Enabling Back navigation on Action Bar icon
+        setTitle("Find current stop");
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -84,6 +85,8 @@ public class FindStopActivity extends ActionBarActivity {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -92,18 +95,23 @@ public class FindStopActivity extends ActionBarActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                List<String> stopSuggestions = jsonStops.getStopSuggestions(s);
-
-                Log.d("QUERY", stopSuggestions.toString());
-                SuggestionsAdapter suggestionsAdapter = new SuggestionsAdapter(activity, stopSuggestions);
-                recyclerView.setAdapter(suggestionsAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+                    fillRecyclerViewWithFoundStops(s);
                 return false;
             }
         });
 
         return super.onCreateOptionsMenu(menu);
     }
+
+    public void fillRecyclerViewWithFoundStops(String s){
+        List<String> stopSuggestions = jsonStops.getStopSuggestions(s);
+
+        Log.d("QUERY", stopSuggestions.toString());
+        SuggestionsAdapter suggestionsAdapter = new SuggestionsAdapter(activity, stopSuggestions);
+        recyclerView.setAdapter(suggestionsAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

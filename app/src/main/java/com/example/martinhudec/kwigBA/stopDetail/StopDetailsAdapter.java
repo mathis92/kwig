@@ -48,7 +48,7 @@ public class StopDetailsAdapter extends RecyclerView.Adapter<StopDetailsAdapter.
         holder.vehicleId.setText(routeDetail.vehicleId);
         holder.icon.setImageResource(routeDetail.vehicleTypeIcon);
         holder.arrivalTime.setText(routeDetail.arrivalTime);
-        holder.delay.setText(routeDetail.delay);
+        holder.delay.setText(routeDetail.getDelayHMS());
     }
 
     @Override

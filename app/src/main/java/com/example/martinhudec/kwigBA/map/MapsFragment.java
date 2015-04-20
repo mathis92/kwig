@@ -1,22 +1,17 @@
 package com.example.martinhudec.kwigBA.map;
 
 
-import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
-import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.martinhudec.kwigBA.MainActivity;
 import com.example.martinhudec.kwigBA.R;
-import com.example.martinhudec.kwigBA.stopDetail.StopDetailsActivity;
-import com.gc.materialdesign.views.ButtonFlat;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -24,10 +19,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -70,27 +62,22 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onPause() {
-        if (preventSleep) {
-            Log.d("MAPSFRAGMENT", "preventSleep on");
-        } else {
-            super.onPause();
-            Log.d("MAPSFRAGMENT", "onPause");
-            stopUpdatingVehiclePositions();
-        }
+
+        super.onPause();
+        Log.d("MAPSFRAGMENT", "onPause");
+        stopUpdatingVehiclePositions();
+
     }
 
     @Override
     public void onResume() {
-    if(preventSleep){
-        Log.d("MAPSFRAGMENT", "preventSleep off");
-        preventSleep = false;
-    }else {
+
         super.onResume();
         Log.d("MAPSFRAGMENT", "onResume");
         if (locationManagerOn) {
             startUpdatingVehiclePositions();
+
         }
-    }
     }
 
     @Override
@@ -123,7 +110,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-
     public void startLocManager() {
         Log.d("MapsFragment", " starting Location Manager");
 
@@ -132,20 +118,21 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         if (loc != null) {
             //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.162222,17.123807),15));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), 15));
-           // startLocation = loc;
+            // startLocation = loc;
         }
         mMap.setInfoWindowAdapter(new InfoWindowAdapter(mainActivity, markerObjectHashMap, mMap));
 
-        OnCameraChangeListener onCameraChangeListener = new OnCameraChangeListener(mMap, stopsIS, currentlyDisplayedVehicles, currentlyDisplayedStops,markerObjectHashMap, this);
+        OnCameraChangeListener onCameraChangeListener = new OnCameraChangeListener(mMap, stopsIS, currentlyDisplayedVehicles, currentlyDisplayedStops, markerObjectHashMap, this);
         this.mMap.setOnCameraChangeListener(onCameraChangeListener);
         startUpdatingVehiclePositions();
         locationManagerOn = true;
 
 
     }
-public void preventSleep(){
-    preventSleep = true;
-}
+
+    public void preventSleep() {
+        preventSleep = true;
+    }
 
     public void stopUpdatingVehiclePositions() {
         updateVehiclePositions.stopUpdate();
@@ -167,7 +154,6 @@ public void preventSleep(){
         startLocManager();
 
     }
-
 
 
 }

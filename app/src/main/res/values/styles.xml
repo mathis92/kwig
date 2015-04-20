@@ -10,8 +10,8 @@
         <item name="colorAccent">@color/primaryColorAccent</item>
     </style>
     <style name="CustomToolBarTheme" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:textColorPrimary">@color/primaryColorAccent</item>
-        <item name="android:textColorSecondary">@color/primaryColorAccent</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:textColorSecondary">#FFFFFF</item>
     </style>
 
 </resources>

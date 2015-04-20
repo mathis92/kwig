@@ -2,7 +2,6 @@ package com.example.martinhudec.kwigBA;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -11,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
@@ -21,23 +19,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.martinhudec.kwigBA.findStop.FindStopActivity;
 import com.example.martinhudec.kwigBA.map.MapsFragment;
-import com.example.martinhudec.kwigBA.map.OnCameraChangeListener;
 import com.example.martinhudec.kwigBA.nearStops.NearFragment;
-import com.example.martinhudec.kwigBA.stopDetail.StopDetailsActivity;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 
 import java.io.InputStream;
 import java.util.ArrayList;

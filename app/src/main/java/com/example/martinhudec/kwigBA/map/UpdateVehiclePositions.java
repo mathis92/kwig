@@ -1,6 +1,5 @@
 package com.example.martinhudec.kwigBA.map;
 
-import android.app.Fragment;
 import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -10,7 +9,6 @@ import com.google.android.gms.maps.model.Marker;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by martinhudec on 10/04/15.

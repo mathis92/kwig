@@ -88,12 +88,10 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
         vehicleDetailList = new ArrayList<>();
         String[] vehicleDetailTexts = context.getResources().getStringArray(R.array.vehicle_detail);
 
-        vehicleDetailList.add(new VehicleDetail(R.drawable.tram_icon,vehicleDetailTexts[0], vehicle.getShortName()));
         vehicleDetailList.add(new VehicleDetail(R.drawable.next_stop,vehicleDetailTexts[1], vehicle.getNextStop()));
-
         vehicleDetailList.add(new VehicleDetail(R.drawable.heading_to,vehicleDetailTexts[2], vehicle.getHeadingTo()));
         vehicleDetailList.add(new VehicleDetail(R.drawable.delay,vehicleDetailTexts[3], vehicle.getArrivalTime()));
-        vehicleDetailList.add(new VehicleDetail(R.drawable.delay, vehicleDetailTexts[4], vehicle.getDelay()));
+        vehicleDetailList.add(new VehicleDetail(R.drawable.delay, vehicleDetailTexts[4], vehicle.getDelayHMS()));
         vehicleDetailList.add(new VehicleDetail(R.drawable.next_stop, vehicleDetailTexts[5], vehicle.getLastStop()));
         vehicleDetailList.add(new VehicleDetail(R.drawable.info, vehicleDetailTexts[6], vehicle.getSpeed()));
     }

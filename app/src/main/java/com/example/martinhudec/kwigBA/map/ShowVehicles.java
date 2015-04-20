@@ -1,6 +1,10 @@
 package com.example.martinhudec.kwigBA.map;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.LevelListDrawable;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -98,8 +102,11 @@ public class ShowVehicles extends AsyncTask<Object, List<Vehicle>, List<Vehicle>
                 }
             }
             if (found == 0) {
+                Integer icon = null;
+
+
                 Marker marker = mMap.addMarker(new MarkerOptions()
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.tram_icon_small))
+                        .icon(BitmapDescriptorFactory.fromResource(vehicle.getVehicleTypeIcon()))
                         .position(new LatLng(vehicle.lat, vehicle.lon))
                         .title(vehicle.shortName));
                 currentlyDisplayed.add(new MarkerDetails(marker, vehicle));
@@ -118,21 +125,22 @@ public class ShowVehicles extends AsyncTask<Object, List<Vehicle>, List<Vehicle>
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("Response", response);
+                     //   Log.d("Response", response);
                         currentVehicleList = new ArrayList<>();
                         try {
                             JSONArray jsonArray = new JSONArray(response);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 Vehicle currentVehicle = new Vehicle();
+                                currentVehicle.vehicleType = jsonArray.getJSONObject(i).getInt("vehicleType");
                                 switch (jsonArray.getJSONObject(i).getInt("vehicleType")) {
                                     case 0:
-                                        currentVehicle.vehicleTypeIcon = R.drawable.tram_icon;
+                                        currentVehicle.vehicleTypeIcon = R.drawable.tram_icon_small;
                                         break;
                                     case 2:
-                                        currentVehicle.vehicleTypeIcon = R.drawable.bus_icon1;
+                                        currentVehicle.vehicleTypeIcon = R.drawable.bus_icon_small;
                                         break;
                                     case 3:
-                                        currentVehicle.vehicleTypeIcon = R.drawable.bus_icon1;
+                                        currentVehicle.vehicleTypeIcon = R.drawable.bus_icon_small;
                                         break;
                                 }
                                 currentVehicle.id = (jsonArray.getJSONObject(i).getString("id"));

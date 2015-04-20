@@ -11,23 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.example.martinhudec.kwigBA.R;
-import com.example.martinhudec.kwigBA.map.Stop;
-import com.example.martinhudec.kwigBA.serverConnection.VolleySingleton;
-import com.example.martinhudec.kwigBA.stopDetail.RouteDetail;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by martinhudec on 20/03/15.

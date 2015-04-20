@@ -13,7 +13,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
 import java.util.HashMap;
-import android.view.LayoutInflater;
+
 import android.widget.TextView;
 
 /**

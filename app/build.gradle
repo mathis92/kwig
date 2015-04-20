@@ -3,9 +3,8 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 22
     buildToolsVersion "22.0.0"
-
     defaultConfig {
-        applicationId "com.example.martinhudec.tabtest"
+        applicationId 'com.example.martinhudec.tabtest'
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
@@ -17,6 +16,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+    }
 }
 repositories {
     jcenter()
@@ -25,7 +26,7 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:22.0.+"
+    compile 'com.android.support:appcompat-v7:22.0.+'
     compile 'com.android.support:recyclerview-v7:21.0.0'
     compile 'com.android.support:cardview-v7:21.0.+'
     compile 'it.neokree:MaterialTabs:0.11'

@@ -1,13 +1,11 @@
 package com.example.martinhudec.kwigBA.serverConnection;
 
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 
 import com.android.volley.*;
 import com.android.volley.toolbox.StringRequest;
 import com.example.martinhudec.kwigBA.R;
 import com.example.martinhudec.kwigBA.stopDetail.RouteDetail;
-import com.example.martinhudec.kwigBA.stopDetail.StopDetailsAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
