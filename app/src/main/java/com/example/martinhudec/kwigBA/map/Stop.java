@@ -7,7 +7,7 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class Stop implements Comparable {
 
-    Long stopId = null;
+    String stopId = null;
     String stopName = null;
     Double lat = null;
     Double lon = null;
@@ -15,7 +15,7 @@ public class Stop implements Comparable {
     Float distanceTo = null;
     String vehicles = null;
 
-    public Stop(Long stopId, String stopName, Double lat, Double lon, String vehicles) {
+    public Stop(String stopId, String stopName, Double lat, Double lon, String vehicles) {
         this.stopId = stopId;
         this.stopName = stopName;
         this.lat = lat;
@@ -23,7 +23,7 @@ public class Stop implements Comparable {
         this.latLng = new LatLng(lat, lon);
         this.vehicles = vehicles;
     }
-    public Stop(Long stopId, String stopName, Double lat, Double lon) {
+    public Stop(String stopId, String stopName, Double lat, Double lon) {
         this.stopId = stopId;
         this.stopName = stopName;
         this.lat = lat;
@@ -51,7 +51,7 @@ public class Stop implements Comparable {
         return lon;
     }
 
-    public Long getStopId() {
+    public String getStopId() {
         return stopId;
     }
 

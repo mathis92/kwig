@@ -55,7 +55,7 @@ public class ShowVehicles extends AsyncTask<Object, List<Vehicle>, List<Vehicle>
     @Override
     protected List<Vehicle> doInBackground(Object... params) {
     Log.d("FRAJERSKY","");
-        if (((CameraPosition) params[1]).zoom > 14) {
+        if (((CameraPosition) params[1]).zoom >= 15) {
             requestVehicles((LatLngBounds) params[0]);
         } else {
             currentVehicleList = new ArrayList<>();
@@ -79,14 +79,16 @@ public class ShowVehicles extends AsyncTask<Object, List<Vehicle>, List<Vehicle>
     @Override
     protected void onPostExecute(List<Vehicle> vehicles) {
         super.onPostExecute(vehicles);
-        Log.d("ON POST EXECUTE", ((Integer) vehicles.size()).toString());
+       // Log.d("ON POST EXECUTE", ((Integer) vehicles.size()).toString());
         for (MarkerDetails mark : currentlyDisplayed) {
             int solved = 0;
             for (Vehicle vehicle : vehicles) {
                 if (mark.getVehicle().id.equals(vehicle.id)) {
                     solved = 1;
                    // mark.getMarker().setPosition(new LatLng(vehicle.lat, vehicle.lon));
+
                     animateMarker(mark.getMarker(),new LatLng(vehicle.lat, vehicle.lon), false);
+                    mark.getVehicle().updateVehicle(vehicle);
                 }
             }
             if (solved == 0) {
@@ -117,7 +119,7 @@ public class ShowVehicles extends AsyncTask<Object, List<Vehicle>, List<Vehicle>
     }
 
     public void requestVehicles(final LatLngBounds bounds) {
-        Log.d("requestVehicles", bounds.toString());
+       // Log.d("requestVehicleDetails", bounds.toString());
         RequestQueue requestQueue = VolleySingleton.getsInstance().getmRequestQueue();
         String url = "http://bpbp.ctrgn.net/api/device";
 
@@ -166,7 +168,7 @@ public class ShowVehicles extends AsyncTask<Object, List<Vehicle>, List<Vehicle>
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
-                        Log.d("Error.Response", "error");
+                        Log.d("SHOW WEHICLES", "error");
                     }
                 }
         ) {

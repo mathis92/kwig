@@ -2,6 +2,7 @@ package com.example.martinhudec.kwigBA;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -18,10 +19,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.martinhudec.kwigBA.equip.Delay;
 import com.example.martinhudec.kwigBA.findStop.FindStopActivity;
 import com.example.martinhudec.kwigBA.map.MapsFragment;
 import com.example.martinhudec.kwigBA.nearStops.NearFragment;
@@ -29,6 +32,7 @@ import com.example.martinhudec.kwigBA.nearStops.NearFragment;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -52,8 +56,19 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new Delay(this);
         this.savedInstanceState = savedInstanceState;
-        Log.d("MAIN ACTIVITY", "onCREATE");
+
+        Resources res = this.getResources();
+        // Change locale settings in the app.
+        DisplayMetrics dm = res.getDisplayMetrics();
+        android.content.res.Configuration conf = res.getConfiguration();
+        conf.locale = new Locale("sk".toLowerCase());
+        res.updateConfiguration(conf, dm);
+
+
+
+       // Log.d("MAIN ACTIVITY", "onCREATE");
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -94,7 +109,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     }
 
     public void startLocManager() {
-        Log.d("MapsFragment", " starting Location Manager");
+       // Log.d("MapsFragment", " starting Location Manager");
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 
@@ -120,7 +135,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     public Location getLastKnownLocation() {
         String provider = locationManager.getBestProvider(new Criteria(), true);
         Location loc = locationManager.getLastKnownLocation(provider);
-        Log.d("MapsFragment", loc.toString() + " provider " + provider);
+      //  Log.d("MapsFragment", loc.toString() + " provider " + provider);
         return loc;
     }
 
@@ -201,6 +216,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 case 0: {
                     mapsFragment = MapsFragment.getInstance(position);
                     mapsFragment.setInputStream(stopsIS);
+                    mapsFragment.setInputStreamDetailed(getResources().openRawResource(R.raw.stops_detailed));
                     fragment = (Fragment) mapsFragment;
                     fragmentList.add(fragment);
 

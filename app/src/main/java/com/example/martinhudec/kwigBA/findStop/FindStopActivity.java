@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -24,11 +25,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.martinhudec.kwigBA.R;
+import com.example.martinhudec.kwigBA.equip.DividerItemDecoration;
 import com.example.martinhudec.kwigBA.equip.ReadJsonStops;
 import com.example.martinhudec.kwigBA.serverConnection.VolleySingleton;
 
 import com.example.martinhudec.kwigBA.stopDetail.StopDetailsAdapter;
 import com.example.martinhudec.kwigBA.stopDetail.RouteDetail;
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,7 +52,7 @@ public class FindStopActivity extends ActionBarActivity {
     private TextView txtQuery;
     Activity activity;
     ReadJsonStops jsonStops;
-
+    CircularProgressView mCircularProgressView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +69,16 @@ public class FindStopActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // txtQuery = (TextView) findViewById(R.id.txtQuery);
         handleIntent(getIntent());
-        Log.d("findStop activity ", "before recycler view call");
+      //  Log.d("findStop activity ", "before recycler view call");
+        mCircularProgressView = (CircularProgressView) this.findViewById(R.id.progress_view);
+        mCircularProgressView.setIndeterminate(true);
+        mCircularProgressView.setVisibility(View.VISIBLE);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
         recyclerView = (RecyclerView) this.findViewById(R.id.find_stop_recycler_view);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.abc_list_divider_mtrl_alpha)));
 
         activity = this;
 
@@ -106,12 +114,18 @@ public class FindStopActivity extends ActionBarActivity {
     public void fillRecyclerViewWithFoundStops(String s){
         List<String> stopSuggestions = jsonStops.getStopSuggestions(s);
 
-        Log.d("QUERY", stopSuggestions.toString());
+     //   Log.d("QUERY", stopSuggestions.toString());
         SuggestionsAdapter suggestionsAdapter = new SuggestionsAdapter(activity, stopSuggestions);
         recyclerView.setAdapter(suggestionsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        mCircularProgressView.setIndeterminate(false);
+        mCircularProgressView.setVisibility(View.INVISIBLE);
     }
 
+    public void startCircilarProgress(){
+        mCircularProgressView.setIndeterminate(true);
+        mCircularProgressView.setVisibility(View.VISIBLE);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -140,7 +154,7 @@ public class FindStopActivity extends ActionBarActivity {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
 
-            Log.d("query", query);
+     //       Log.d("query", query);
             getStopContent(query);
         }
 
@@ -158,7 +172,7 @@ public class FindStopActivity extends ActionBarActivity {
                     public void onResponse(String response) {
                         List<RouteDetail> routeData = new ArrayList<>();
 
-                        Log.d("Response", response);
+                //        Log.d("Response", response);
 
                         try {
                             JSONArray jsonArray = new JSONArray(response);
@@ -166,28 +180,32 @@ public class FindStopActivity extends ActionBarActivity {
                                 RouteDetail current = new RouteDetail();
                                 switch (jsonArray.getJSONObject(i).getInt("routeType")) {
                                     case 0:
-                                        current.setVehicleTypeIcon(R.drawable.tram_icon);
+                                        current.setVehicleTypeIcon(R.drawable.transport_tram_512p);
                                         break;
                                     case 2:
-                                        current.setVehicleTypeIcon(R.drawable.bus_icon1);
+                                        current.setVehicleTypeIcon(R.drawable.transport_trolleybus_512p);
                                         break;
                                     case 3:
-                                        current.setVehicleTypeIcon(R.drawable.bus_icon1);
+                                        current.setVehicleTypeIcon(R.drawable.transport_bus_512p);
                                         break;
                                 }
 
-                                current.setVehicleId(jsonArray.getJSONObject(i).getString("routeId"));
+                                current.setVehicleShortName(jsonArray.getJSONObject(i).getString("vehicleShortName"));
                                 current.setArrivalTime(jsonArray.getJSONObject(i).getString("arrivalTime"));
                                 current.setDelay(jsonArray.getJSONObject(i).getString("delay"));
                                 current.setHeadingTo(jsonArray.getJSONObject(i).getString("stopHeadSign"));
+                                current.setVehicleId(jsonArray.getJSONObject(i).getString("vehicleId"));
                                 routeData.add(current);
                             }
                             Log.d("StopDetialsActivity", "routeData size " + routeData.size());
                             if (!routeData.isEmpty()) {
+
                                 stopDetailsAdapter = new StopDetailsAdapter(activity, routeData);
                                 recyclerView.removeAllViews();
                                 recyclerView.setAdapter(stopDetailsAdapter);
                                recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+                                mCircularProgressView.setIndeterminate(false);
+                                mCircularProgressView.setVisibility(View.INVISIBLE);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

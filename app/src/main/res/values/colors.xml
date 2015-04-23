@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primaryColor">#F44336</color>
-    <color name="primaryColorDark">#D32F2F</color>
+    <color name="primaryColor">#D20000</color>
+    <color name="primaryColorDark">#FFFF2027</color>
     <color name="primaryColorAccent">#FFC107</color>
     <color name="colorHighlight">#B6B6B6</color>
+    <color name="vehicleOnTime">#D7DF96</color>
+    <color name="vehicleDelay">#F3B8B3</color>
+    <color name="stop">#EDEDED</color>
+    <color name="bus">#2196F3</color>
+    <color name="tram">#FF5252</color>
+    <color name="trolleybus">#8BC34A</color>
 </resources>

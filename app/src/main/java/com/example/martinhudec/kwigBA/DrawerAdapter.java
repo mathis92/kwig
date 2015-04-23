@@ -1,7 +1,9 @@
 package com.example.martinhudec.kwigBA;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
@@ -21,20 +23,20 @@ import java.util.List;
 public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.MyViewHolder> {
     private LayoutInflater inflator;
     List<Information> data = Collections.emptyList();
-    private Context context;
+    private Activity activity;
 
-    public DrawerAdapter(Context context, List<Information> data) {
-        Log.d("mathis", "CONSTURCTOR");
-        inflator = LayoutInflater.from(context);
+    public DrawerAdapter(Activity activity, List<Information> data) {
+    //    Log.d("mathis", "CONSTURCTOR");
+        inflator = LayoutInflater.from(activity);
         this.data = data;
-        this.context = context;
+        this.activity = activity;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflator.inflate(R.layout.custom_row, parent, false);
         MyViewHolder holder = new MyViewHolder(view);
-        Log.d("mathis", "onCreateViewHolder");
+      //  Log.d("mathis", "onCreateViewHolder");
 
         return holder;
     }
@@ -42,7 +44,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.MyViewHold
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Information current = data.get(position);
-        Log.d("mathis", "on bind view holder " + position);
+       // Log.d("mathis", "on bind view holder " + position);
         holder.title.setText(current.title);
         holder.icon.setImageResource(current.iconId);
 
@@ -50,7 +52,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.MyViewHold
 
     @Override
     public int getItemCount() {
-        return 15;
+        return 2;
     }
 
     public void delete(int position) {
@@ -67,14 +69,20 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.MyViewHold
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.listText);
             icon = (ImageView) itemView.findViewById(R.id.listIcon);
-            icon.setOnClickListener(this);
-            Log.d("mathis", "MyViewHolder");
+            itemView.setOnClickListener(this);
+
         }
 
         @Override
         public void onClick(View v) {
-            delete(getPosition());
-            Toast.makeText(context, "Item clicked at " + getPosition(), Toast.LENGTH_SHORT).show();
+            if(getPosition() == 0){
+                if(getPosition() == 0){
+                    Intent settingsActivity = new Intent(activity, SettingsActivity.class);
+                    activity.startActivity(settingsActivity);
+                    activity.overridePendingTransition(R.anim.activity_animation, R.anim.activity_animation2);
+                }
+            }
+            Toast.makeText(activity, "Item clicked at " + getPosition(), Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -43,7 +43,7 @@ public class InfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
     public View getInfoContents(Marker marker) {
         View view = null;
         if(markerObjectHashMap.get(marker).getClass().equals(Vehicle.class)){
-            Log.d("VEHICLE", ((Vehicle)markerObjectHashMap.get(marker)).shortName);
+          //  Log.d("VEHICLE", ((Vehicle)markerObjectHashMap.get(marker)).shortName);
              vehicle = (Vehicle)markerObjectHashMap.get(marker);
 
             view = mainActivity.getLayoutInflater().inflate(R.layout.vehicle_marker_info_window, null);
@@ -54,20 +54,20 @@ public class InfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
             vehicleHeadingTo.setText("Heading to -> " + vehicle.headingTo);
 
         }else {
-            Log.d("STOP", ((Stop) markerObjectHashMap.get(marker)).stopName);
+        //    Log.d("STOP", ((Stop) markerObjectHashMap.get(marker)).stopName);
             Stop stop = (Stop) markerObjectHashMap.get(marker);
            view = mainActivity.getLayoutInflater().inflate(R.layout.marker_info_window, null);
             TextView title = (TextView) view.findViewById(R.id.markerTitle);
             TextView stopVehicles = (TextView) view.findViewById(R.id.markerStopVehicles);
             title.setText(marker.getTitle());
-         Log.d("stopVehicles", stop.getVehicles());
+       //  Log.d("stopVehicles", stop.getVehicles());
 
             stopVehicles.setText(stop.getVehicles());
         }
             mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                 @Override
                 public void onInfoWindowClick(Marker marker) {
-                    Log.d("MapsFragment", "Button on click listener ");
+            //        Log.d("MapsFragment", "Button on click listener ");
                     if (markerObjectHashMap.get(marker).getClass().equals(Vehicle.class)) {
                         Intent vehicleDetailsActivity = new Intent(mainActivity, VehicleDetailsActivity.class);
                         Bundle b = new Bundle();

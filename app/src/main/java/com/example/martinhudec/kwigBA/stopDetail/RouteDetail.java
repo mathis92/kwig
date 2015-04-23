@@ -1,12 +1,18 @@
 package com.example.martinhudec.kwigBA.stopDetail;
 
+import com.example.martinhudec.kwigBA.equip.Delay;
+
+import java.io.Serializable;
+
 /**
  * Created by martinhudec on 29/03/15.
  */
-public class RouteDetail {
+public class RouteDetail implements Serializable{
     String headingTo;
-    String vehicleId;
+    String vehicleShortName;
     Integer vehicleTypeIcon;
+    Integer vehicleType;
+    String vehicleId;
     String delay;
     String arrivalTime;
     public String delayHMS = null;
@@ -14,65 +20,11 @@ public class RouteDetail {
 
     public String getDelayHMS() {
         if (delayHMS == null) {
-            if (delay.equals("notStarted")) {
-                return "not started yet";
-            } else if (Integer.parseInt(delay) != 0) {
-                int[] timeArray = secsToHMS(Integer.parseInt(delay));
-                StringBuilder stringBuilder = new StringBuilder();
-                String seconds = null;
-                String minutes = null;
-                String hours = null;
-                for (int i = 2; i >= 0; i--) {
-                    switch (i) {
-                        case 0:
-                            if (timeArray[i] != 0) {
-                                hours = timeArray[i] + " hours";
-                            } else hours = "";
-                            break;
-                        case 1:
-                            if (timeArray[i] == 60) {
-                                timeArray[0] += 1;
-                            } else if (timeArray[i] != 0) {
-                                minutes = timeArray[i] + " minutes";
-                            } else {
-                                minutes = "";
-                            }
-
-                            break;
-                        case 2:
-                            int s = getDelayLength(timeArray[i]);
-                            if (s == 60) {
-                                timeArray[1] += 1;
-                            } else if (s != 0) {
-                                seconds = s + " seconds";
-                            } else {
-                                seconds = "";
-                            }
-                            break;
-                    }
-                }
-                return stringBuilder.append(hours).append(" ").append(minutes).append(" ").append(seconds).toString();
-            } else {
-                return "on time";
-            }
+            delayHMS = Delay.getDelayHMS(delay,true);
+            return delayHMS;
         } else {
             return delayHMS;
         }
-    }
-
-    public int getDelayLength(int delay) {
-        if (delay == 60) {
-            return 60;
-        } else if (delay > 45) {
-            return 45;
-        } else if (delay > 30) {
-            return 30;
-        } else if (delay > 15) {
-            return 15;
-        } else {
-            return 0;
-        }
-
     }
 
     public String getHeadingTo() {
@@ -83,12 +35,20 @@ public class RouteDetail {
         this.headingTo = headingTo;
     }
 
-    public String getVehicleId() {
-        return vehicleId;
+    public String getVehicleShortName() {
+        return vehicleShortName;
     }
 
-    public void setVehicleId(String vehicleId) {
-        this.vehicleId = vehicleId;
+    public Integer getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(Integer vehicleType) {
+        this.vehicleType = vehicleType;
+    }
+
+    public void setVehicleShortName(String vehicleShortName) {
+        this.vehicleShortName = vehicleShortName;
     }
 
     public Integer getVehicleTypeIcon() {
@@ -97,6 +57,14 @@ public class RouteDetail {
 
     public void setVehicleTypeIcon(Integer vehicleTypeIcon) {
         this.vehicleTypeIcon = vehicleTypeIcon;
+    }
+
+    public String getVehicleId() {
+        return vehicleId;
+    }
+
+    public void setVehicleId(String vehicleId) {
+        this.vehicleId = vehicleId;
     }
 
     public String getDelay() {
@@ -115,11 +83,5 @@ public class RouteDetail {
         this.arrivalTime = arrivalTime;
     }
 
-    public static int[] secsToHMS(int totalSecs) {
-        int[] timeArray = new int[3];
-        timeArray[0] = totalSecs / 3600; //hours
-        timeArray[1] = (totalSecs % 3600) / 60; //minutes
-        timeArray[2] = totalSecs % 60; //seconds
-        return timeArray;
-    }
+
 }

@@ -46,7 +46,7 @@ public class UpdateVehiclePositions implements Runnable {
                     final ShowVehicles showVehicles = new ShowVehicles(mMap, currentlyDisplayed, markerObjectHashMap);
                     showVehicles.execute(bounds, position);
 
-                    Log.d("UpdateVehicleLocation", "location");
+           //         Log.d("UpdateVehicleLocation", "location");
                     try {
                         Thread.sleep(3000);
                     } catch (InterruptedException e) {

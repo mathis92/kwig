@@ -32,6 +32,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private MainActivity mainActivity;
     public InputStream stopsIS;
+    public InputStream stopsDetailed;
     public Location startLocation = null;
 
     private View mapLayout = null;
@@ -60,11 +61,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         this.stopsIS = stopsIS;
     }
 
+    public void setInputStreamDetailed(InputStream stopsDetailed) {
+        this.stopsDetailed = stopsDetailed;
+    }
+
     @Override
     public void onPause() {
 
         super.onPause();
-        Log.d("MAPSFRAGMENT", "onPause");
+     //   Log.d("MAPSFRAGMENT", "onPause");
         stopUpdatingVehiclePositions();
 
     }
@@ -73,7 +78,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onResume() {
 
         super.onResume();
-        Log.d("MAPSFRAGMENT", "onResume");
+      //  Log.d("MAPSFRAGMENT", "onResume");
         if (locationManagerOn) {
             startUpdatingVehiclePositions();
 
@@ -88,7 +93,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         SupportMapFragment smf = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapview);
         smf.getMapAsync(this);
 
-        Log.d("MapsFragment", " On create view runing");
+       // Log.d("MapsFragment", " On create view runing");
         currentlyDisplayedVehicles = new CopyOnWriteArrayList<>();
         currentlyDisplayedStops = new CopyOnWriteArrayList<>();
         locationManagerOn = false;
@@ -111,7 +116,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
 
     public void startLocManager() {
-        Log.d("MapsFragment", " starting Location Manager");
+     //   Log.d("MapsFragment", " starting Location Manager");
 
 
         Location loc = mainActivity.getLastKnownLocation();
@@ -122,7 +127,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
         mMap.setInfoWindowAdapter(new InfoWindowAdapter(mainActivity, markerObjectHashMap, mMap));
 
-        OnCameraChangeListener onCameraChangeListener = new OnCameraChangeListener(mMap, stopsIS, currentlyDisplayedVehicles, currentlyDisplayedStops, markerObjectHashMap, this);
+        OnCameraChangeListener onCameraChangeListener = new OnCameraChangeListener(mMap, stopsIS,stopsDetailed, currentlyDisplayedVehicles, currentlyDisplayedStops, markerObjectHashMap, this);
         this.mMap.setOnCameraChangeListener(onCameraChangeListener);
         startUpdatingVehiclePositions();
         locationManagerOn = true;

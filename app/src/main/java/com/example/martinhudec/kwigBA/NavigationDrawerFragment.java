@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -45,6 +46,7 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mUserLearnedDrawer;
     private boolean mFromSavedInstanceState;
     private View containerView;
+    private Activity activity;
 
 
     private OnFragmentInteractionListener mListener;
@@ -64,6 +66,7 @@ public class NavigationDrawerFragment extends Fragment {
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -78,6 +81,7 @@ public class NavigationDrawerFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        activity = getActivity();
         mUserLearnedDrawer = Boolean.valueOf(readFromPreferences(getActivity(), KEY_USER_LEARNED_DRAWER, "false"));
         if (savedInstanceState != null) {
             mFromSavedInstanceState = true;
@@ -89,11 +93,11 @@ public class NavigationDrawerFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-        //recyclerView = (RecyclerView) layout.findViewById(R.id.drawerRecycler);
-        //drawerAdapter = new DrawerAdapter(getActivity(),getData());
-        //recyclerView.setAdapter(drawerAdapter);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        Log.d("mathis","oncreateView");
+        recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerView);
+        drawerAdapter = new DrawerAdapter(getActivity(), getData());
+        recyclerView.setAdapter(drawerAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+       // Log.d("mathis", "oncreateView");
 
         return layout;
     }
@@ -105,15 +109,17 @@ public class NavigationDrawerFragment extends Fragment {
         }
     }
 
-    public static List<Information> getData(){
-      List<Information> data = new ArrayList<>();
-        for(int i = 0; i<15; i++){
-            Information current = new Information();
-            current.iconId=R.drawable.android4;
-            current.title="SI SUPER !";
-            data.add(current);
-        }
-        Log.d("mathis","size " +data.size());
+    public List<Information> getData() {
+        List<Information> data = new ArrayList<>();
+        Information current = new Information();
+        current.iconId = R.drawable.ic_settings_grey600_48dp;
+        current.title = activity.getResources().getString(R.string.settings);
+        data.add(current);
+        current = new Information();
+        current.iconId = R.drawable.ic_info_outline_grey600_48dp;
+        current.title = activity.getResources().getString(R.string.about);
+        data.add(current);
+
         return data;
     }
 

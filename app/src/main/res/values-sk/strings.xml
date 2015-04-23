@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KWiG</string>
+
+    <string name="action_settings">Nastavenia</string>
+    <string name="title_activity_sub">SubActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="drawer_open">Otvoriť</string>
+    <string name="drawer_close">Zatvoriť</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+    <string name="title_find_stop_activity">Find Stop Activity</string>
+    <string name="search_hint">zadaj názov zastávky</string>
+    <string name="title_settings_activity">Nastavnenia</string>
+    <string name="not_started_yet">ešte nevyštartovalo</string>
+    <string name="hours">hod</string>
+    <string name="mins">min</string>
+    <string name="secs">sec</string>
+    <string name="delay_ahead">v predstihu</string>
+    <string name="delay">mešká</string>
+    <string name="on_time">na čas</string>
+    <string name="bus"> autobus č. </string>
+    <string name="trolley_bus"> trolejbus č. </string>
+    <string name="tram"> električka č. </string>
+    <string name="settings">Nastavenia</string>
+    <string name="about">O KWiG</string>
+    <string-array name="tabs">
+        <item>MAPA</item>
+        <item>BlÍZKO</item>
+    </string-array>
+    <string-array name="vehicle_detail">
+        <item>Short Name</item>
+        <item>Nasledujúca zastávka</item>
+        <item>Smer</item>
+        <item>Čas príchodu násl. zást.</item>
+        <item>Meškanie</item>
+        <item>Predchádzajúca zastávka</item>
+        <item>Rýchlosť</item>
+    </string-array>
+
+</resources>

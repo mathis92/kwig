@@ -1,7 +1,10 @@
 package com.example.martinhudec.kwigBA.vehicleDetail;
 
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.martinhudec.kwigBA.R;
+import com.example.martinhudec.kwigBA.equip.Delay;
 import com.example.martinhudec.kwigBA.map.Vehicle;
 
 import java.util.ArrayList;
@@ -28,7 +32,7 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
     private Context context;
 
     public VehicleDetailsAdapter(Context context, Vehicle vehicle) {
-        Log.d("mathis", "CONSTURCTOR");
+       // Log.d("mathis", "CONSTURCTOR");
         inflator = LayoutInflater.from(context);
         this.vehicle = vehicle;
         this.context = context;
@@ -40,18 +44,33 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflator.inflate(R.layout.vehicle_detail_card_view, parent, false);
         MyViewHolder holder = new MyViewHolder(view);
-        Log.d("mathis", "onCreateViewHolder");
+        //Log.d("mathis", "onCreateViewHolder");
 
         return holder;
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         VehicleDetail vehicleDetail = vehicleDetailList.get(position);
-        Log.d("mathis", "on bind view holder " + position);
+        //Log.d("mathis", "on bind view holder " + position);
         holder.icon.setImageResource(vehicleDetail.icon);
         holder.text.setText(vehicleDetail.text);
         holder.textData.setText(vehicleDetail.textData);
+//        Log.d("TEXTDATA", vehicleDetail.textData);
+        if(position == 3){
+            if(!vehicleDetail.textData.equals("notStarted")) {
+                if(vehicleDetail.textData.equals("on time") || vehicleDetail.textData.contains("ahead") || vehicleDetail.textData.equals("na čas") || vehicleDetail.textData.contains("v predstihu")){
+                    holder.cardView.setBackgroundColor(context.getResources().getColor(R.color.vehicleOnTime));
+                } else {
+                    holder.cardView.setBackgroundColor(context.getResources().getColor(R.color.vehicleDelay));
+                    holder.itemView.setElevation(10);
+                }
+            }else {
+                holder.itemView.setBackgroundColor(Color.WHITE);
+                 holder.itemView.setElevation(2);
+            }
+        }
     }
 
     @Override
@@ -65,18 +84,21 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
 
 
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        CardView cardView;
         ImageView icon;
         TextView text;
         TextView textData;
+        CardView cardView;
+
 
         public MyViewHolder(View itemView) {
 
             super(itemView);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
             icon = (ImageView) itemView.findViewById(R.id.vehicle_detail_image);
+            icon.setColorFilter(context.getResources().getColor(R.color.background_material_dark));
             text = (TextView) itemView.findViewById(R.id.vehicle_detail_text);
             textData = (TextView)  itemView.findViewById(R.id.vehicle_detail_text_data);
+            cardView = (CardView) itemView.findViewById(R.id.card_view);
         }
 
         @Override

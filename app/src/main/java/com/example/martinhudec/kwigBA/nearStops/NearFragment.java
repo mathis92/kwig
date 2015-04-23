@@ -21,7 +21,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.martinhudec.kwigBA.MainActivity;
 import com.example.martinhudec.kwigBA.R;
-import com.example.martinhudec.kwigBA.RequestSend;
+
+import com.example.martinhudec.kwigBA.equip.DividerItemDecoration;
 import com.example.martinhudec.kwigBA.equip.ReadJsonStops;
 import com.example.martinhudec.kwigBA.map.Stop;
 import com.example.martinhudec.kwigBA.map.MarkerDetails;
@@ -50,24 +51,10 @@ import java.util.Map;
  */
 public class NearFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private LocationManager locationManager;
-    private LocationListener locationListener;
-    private int camera = 0;
-
-    private LatLng ll;
-    private RequestSend rs;
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private MainActivity mainActivity;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    public InputStream stopsIS;
-    public Location startLocation = null;
-    private ViewGroup markerInfoWindow = null;
-    private TextView infoWindowTitle = null;
-    private ButtonFlat infoWindowButton = null;
     private View nearStopsLayout = null;
-    private List<MarkerDetails> markerDetailsList = null;
     private RecyclerView recyclerView;
-    private RecyclerView recyclerViewStopDetails;
     private ReadJsonStops jsonStops;
 
 
@@ -97,6 +84,7 @@ public class NearFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView = (RecyclerView) nearStopsLayout.findViewById(R.id.near_stops_recycler_view);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.abc_list_divider_mtrl_alpha)));
         //      showStopsInRecyclerView();
         mSwipeRefreshLayout = (SwipeRefreshLayout) nearStopsLayout.findViewById(R.id.swipeRefreshNearStops);
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -120,29 +108,31 @@ public class NearFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                         @Override
                         public void onResponse(String response) {
                             stopDetailsWithRoutes.stop = stop;
-                            Log.d("Response", response);
+                  //          Log.d("Response", response);
                             List<RouteDetail> routeDetails = new ArrayList<>();
                             try {
                                 JSONArray jsonArray = new JSONArray(response);
                                 for (int i = 0; i < jsonArray.length(); i++) {
-                                    RouteDetail current = new RouteDetail();
+                                    RouteDetail currentRouteDetail = new RouteDetail();
+                                    currentRouteDetail.setVehicleType(jsonArray.getJSONObject(i).getInt("routeType"));
                                     switch (jsonArray.getJSONObject(i).getInt("routeType")) {
                                         case 0:
-                                            current.setVehicleTypeIcon(R.drawable.tram_icon);
+                                            currentRouteDetail.setVehicleTypeIcon(R.drawable.transport_tram_512p);
                                             break;
                                         case 2:
-                                            current.setVehicleTypeIcon(R.drawable.bus_icon1);
+                                            currentRouteDetail.setVehicleTypeIcon(R.drawable.transport_trolleybus_512p);
                                             break;
                                         case 3:
-                                            current.setVehicleTypeIcon(R.drawable.bus_icon1);
+                                            currentRouteDetail.setVehicleTypeIcon(R.drawable.transport_bus_512p);
                                             break;
                                     }
 
-                                    current.setVehicleId(jsonArray.getJSONObject(i).getString("routeId"));
-                                    current.setArrivalTime(jsonArray.getJSONObject(i).getString("arrivalTime"));
-                                    current.setDelay(jsonArray.getJSONObject(i).getString("delay"));
-                                    current.setHeadingTo(jsonArray.getJSONObject(i).getString("stopHeadSign"));
-                                    routeDetails.add(current);
+                                    currentRouteDetail.setVehicleShortName(jsonArray.getJSONObject(i).getString("vehicleShortName"));
+                                    currentRouteDetail.setArrivalTime(jsonArray.getJSONObject(i).getString("arrivalTime"));
+                                    currentRouteDetail.setDelay(jsonArray.getJSONObject(i).getString("delay"));
+                                    currentRouteDetail.setHeadingTo(jsonArray.getJSONObject(i).getString("stopHeadSign"));
+                                    currentRouteDetail.setVehicleId(jsonArray.getJSONObject(i).getString("vehicleId"));
+                                    routeDetails.add(currentRouteDetail);
                                 }
 
 
@@ -167,7 +157,7 @@ public class NearFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.d("Error.Response", "ERROR");
+                            Log.d("NEAR FRAGMENT", "ERROR");
 
                         }
                     }

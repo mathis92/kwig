@@ -1,5 +1,7 @@
 package com.example.martinhudec.kwigBA.map;
 
+import com.example.martinhudec.kwigBA.equip.Delay;
+
 import java.io.Serializable;
 
 /**
@@ -23,62 +25,24 @@ public class Vehicle implements Serializable {
 
     public String getDelayHMS() {
         if (delayHMS == null) {
-            int[] timeArray = secsToHMS(Integer.parseInt(delay));
-            StringBuilder stringBuilder = new StringBuilder();
-            String seconds = null;
-            String minutes = null;
-            String hours = null;
-            for (int i = 2; i >= 0; i--) {
-                switch (i) {
-                    case 0:
-                            if(timeArray[i] != 0){
-                                hours = timeArray[i] + " hours";
-                            }else hours = "";
-                        break;
-                    case 1:
-                        if (timeArray[i] == 60){
-                            timeArray[0] += 1;
-                        }else if ( timeArray[i] != 0){
-                           minutes = timeArray[i] + " minutes";
-                        }else {
-                            minutes = "";
-                        }
-
-                        break;
-                    case 2:
-                            int s = getDelayLength(timeArray[i]);
-                            if(s == 60){
-                                timeArray[1] += 1;
-                            } else if (s != 0){
-                                seconds = s + " seconds";
-                            }else {
-                                seconds = "";
-                            }
-                        break;
-                }
-            }
-           return  stringBuilder.append(hours).append(" ").append(minutes).append(" ").append(seconds).toString();
-
+            delayHMS = Delay.getDelayHMS(delay, false);
+            return delayHMS;
         } else {
             return delayHMS;
         }
     }
 
-    public int getDelayLength(int delay) {
-        if (delay == 60) {
-            return 60;
-        } else if (delay > 45) {
-            return 45;
-        } else if (delay > 30) {
-            return 30;
-        } else if (delay > 15) {
-            return 15;
-        }else{
-            return 0;
-        }
-
+    public void updateVehicle(Vehicle vehicle) {
+        this.delay = vehicle.delay;
+        this.vehicleType = vehicle.vehicleType;
+        this.arrivalTime = vehicle.arrivalTime;
+        this.lon = vehicle.lon;
+        this.lat = vehicle.lat;
+        this.lastStop = vehicle.lastStop;
+        this.nextStop = vehicle.nextStop;
+        this.arrivalTime = vehicle.arrivalTime;
+        this.speed = vehicle.speed;
     }
-
 
     public Integer getVehicleType() {
         return vehicleType;
@@ -128,12 +92,5 @@ public class Vehicle implements Serializable {
         return id;
     }
 
-    public static int[] secsToHMS(int totalSecs) {
-        int[] timeArray = new int[3];
-        timeArray[0] = totalSecs / 3600; //hours
-        timeArray[1] = (totalSecs % 3600) / 60; //minutes
-        timeArray[2] = totalSecs % 60; //seconds
-        return timeArray;
-    }
 
 }

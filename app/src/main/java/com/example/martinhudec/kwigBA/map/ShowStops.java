@@ -26,12 +26,14 @@ public class ShowStops extends AsyncTask<Object, List<Stop>, List<Stop>> {
     List stopList = null;
     CameraPosition cameraPosition = null;
     ReadJsonStops jsonStops;
+    ReadJsonStops jsonStopsDetailed;
     HashMap<Marker, Object> markerObjectHashMap;
 
-    public ShowStops(GoogleMap mMap, List<MarkerDetails> currentlyDisplayed, ReadJsonStops jsonStops, HashMap<Marker, Object> markerObjectHashMap) {
+    public ShowStops(GoogleMap mMap, List<MarkerDetails> currentlyDisplayed, ReadJsonStops jsonStops, ReadJsonStops jsonStopsDetailed, HashMap<Marker, Object> markerObjectHashMap) {
         this.mMap = mMap;
         this.currentlyDisplayed = currentlyDisplayed;
         this.jsonStops = jsonStops;
+        this.jsonStopsDetailed = jsonStopsDetailed;
         this.markerObjectHashMap = markerObjectHashMap;
 
 
@@ -42,12 +44,14 @@ public class ShowStops extends AsyncTask<Object, List<Stop>, List<Stop>> {
     protected List<Stop> doInBackground(Object... params) {
 
         cameraPosition = (CameraPosition) params[1];
-        if (cameraPosition.zoom > 14) {
-            Log.d("SHOW STOPS", "read json stops");
+        if (cameraPosition.zoom > 16.5) {
 
+        //    Log.d("SHOW STOPS", "read json stops");
+            currentStopList = jsonStopsDetailed.getBoundsList((LatLngBounds)params[0]);
+
+        }else if(cameraPosition.zoom > 14){
             currentStopList = jsonStops.getBoundsList((LatLngBounds) params[0]);
-
-        } else {
+    }else {
             currentStopList = new ArrayList<>();
         }
         return currentStopList;
@@ -57,12 +61,15 @@ public class ShowStops extends AsyncTask<Object, List<Stop>, List<Stop>> {
     @Override
     protected void onPostExecute(List<Stop> stops) {
         super.onPostExecute(stops);
-        Log.d("ON POST EXECUTE", ((Integer) stops.size()).toString());
+      //  Log.d("ON POST EXECUTE", ((Integer) stops.size()).toString());
         for (MarkerDetails mark : currentlyDisplayed) {
             int solved = 0;
             for (Stop stop : stops) {
-                if (stop.getStopName().equals(mark.getStop().getStopName())) {
+             //   Log.d("STOP ID", stop.getStopId());
+                if (stop.getStopId().equals(mark.getStop().getStopId())) {
                     solved = 1;
+                    break;
+
                     // mark.getMarker().setPosition(new LatLng(vehicle.lat, vehicle.lon));
                 }
             }
@@ -75,13 +82,15 @@ public class ShowStops extends AsyncTask<Object, List<Stop>, List<Stop>> {
 
             int found = 0;
             for (MarkerDetails mark : currentlyDisplayed) {
-                if (mark.getStop().stopName.equals(stop.getStopName())) {
+               // Log.d(mark.getStop(), stop.getStopId());
+                if (mark.getStop().stopId.equals(stop.getStopId())) {
                     found = 1;
+                    break;
                 }
             }
-            Log.d("SHOW STOPS", "found = " + found +" " + stop.getStopName());
+          //  Log.d("SHOW STOPS", "found = " + found +" " + stop.getStopName());
             if (found == 0) {
-                Log.d("SHOW STOPS", "found =0 " + stop.getStopName() + stop.getVehicles());
+            //    Log.d("SHOW STOPS", "found =0 " + stop.getStopName() + stop.getVehicles());
                 Marker marker = mMap.addMarker(new MarkerOptions()
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.stop_icon2))
                         .title(stop.getStopName())

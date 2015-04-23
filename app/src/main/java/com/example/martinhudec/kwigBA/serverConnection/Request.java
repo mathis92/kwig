@@ -38,7 +38,7 @@ public class Request {
 
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
             try {
-                Log.d("Request", in.toString());
+            //    Log.d("Request", in.toString());
                 requestedJSONObject = convertInputStreamToJSONObject(new InputStreamReader(in));
             } catch (JSONException e) {
                 e.printStackTrace();

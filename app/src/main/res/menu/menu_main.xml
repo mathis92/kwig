@@ -7,6 +7,6 @@
         android:id="@+id/navigate"
         android:title="@string/next"
         android:orderInCategory="200"
-        android:icon="@drawable/find_icon"
+        android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
         app:showAsAction="always"/>
 </menu>

@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
+    android:layout_height="50dp"
+    android:background="@drawable/custom_bg"
+    android:clickable="true"
     android:elevation="10dp"
     android:id="@+id/stop_custom_row">
 
@@ -19,10 +21,10 @@
         />
 
     <TextView
-        android:id="@+id/stop_custom_row_route_id"
+        android:id="@+id/stop_custom_row_route_short_name"
         android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="30sp"
         android:textStyle="bold"
         android:elevation="15dp"
         android:gravity="center"
@@ -35,6 +37,7 @@
         android:id="@+id/stop_custom_row_route_heading_to"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
         android:elevation="15dp"
         android:gravity="center"
         android:layout_gravity="center_vertical"
@@ -53,12 +56,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:layout_gravity="end"
             android:text="DUMMY "
             android:id="@+id/stop_custom_row_route_arrival_time" />
 
         <TextView
             android:layout_gravity="end"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/stop_custom_row_route_delay"

@@ -23,6 +23,7 @@ import java.util.List;
  */
 public class ReadJsonStops extends AsyncTask<String, Void, Void> {
     List<Stop> stopList = new ArrayList<>();
+    List<Stop> stopListDetailed = new ArrayList<>();
     InputStream stream;
     FindStopActivity activity;
 
@@ -39,6 +40,7 @@ public class ReadJsonStops extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... params) {
         try {
             stopList = readJsonStream(stream);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -103,9 +105,9 @@ public class ReadJsonStops extends AsyncTask<String, Void, Void> {
 
         List<Stop> availableStops = nearStops.subList(0, 3);
 
-        for (Stop stop : availableStops) {
+        /*for (Stop stop : availableStops) {
             Log.d("READ JSON STOPS", stop.getStopName() + " " + (stop.getDistanceTo().toString()));
-        }
+        }*/
         return availableStops;
     }
 
@@ -116,7 +118,7 @@ public class ReadJsonStops extends AsyncTask<String, Void, Void> {
             String stopName = removeAccents(stop.getStopName());
             stopName = stopName.toLowerCase();
             if (stopName.regionMatches(true, 0, s, 0, s.length()) || stopName.contains(s)) {
-                Log.d(stopName, stopName);
+               // Log.d(stopName, stopName);
                 suggestedStops.add(stop.getStopName());
             }
 
@@ -162,7 +164,7 @@ public class ReadJsonStops extends AsyncTask<String, Void, Void> {
     }
 
     public Stop readStops(JsonReader reader) throws IOException {
-        long id = -1;
+        String id = null;
         String name = null;
         Double lat = null;
         Double lon = null;
@@ -171,8 +173,8 @@ public class ReadJsonStops extends AsyncTask<String, Void, Void> {
         reader.beginObject();
         while (reader.hasNext()) {
             String objName = reader.nextName();
-            if (objName.equals("id")) {
-                id = reader.nextLong();
+            if (objName.equals("GtfsStopsId")) {
+                id = reader.nextString();
             } else if (objName.equals("name")) {
                 name = reader.nextString();
             } else if (objName.equals("lat")) {

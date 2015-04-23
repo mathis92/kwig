@@ -35,12 +35,13 @@ public class RequestStopDetails {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("Response", response);
+                   //     Log.d("Response", response);
                         ;
                         try {
                             JSONArray jsonArray = new JSONArray(response);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 RouteDetail current = new RouteDetail();
+                                current.setVehicleType(jsonArray.getJSONObject(i).getInt("routeType"));
                                 switch (jsonArray.getJSONObject(i).getInt("routeType")) {
                                     case 0:
                                         current.setVehicleTypeIcon(R.drawable.tram_icon);
@@ -53,13 +54,13 @@ public class RequestStopDetails {
                                         break;
                                 }
 
-                                current.setVehicleId(jsonArray.getJSONObject(i).getString("routeId"));
+                                current.setVehicleShortName(jsonArray.getJSONObject(i).getString("routeId"));
                                 current.setArrivalTime(jsonArray.getJSONObject(i).getString("arrivalTime"));
                                 current.setDelay(jsonArray.getJSONObject(i).getString("delay"));
                                 current.setHeadingTo(jsonArray.getJSONObject(i).getString("stopHeadSign"));
                                 routeData.add(current);
                             }
-                            Log.d("StopDetialsActivity", "routeData size " + routeData.size());
+                        //    Log.d("StopDetialsActivity", "routeData size " + routeData.size());
                             done = true;
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -69,7 +70,7 @@ public class RequestStopDetails {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("Error.Response", "ERROR");
+                        Log.d("REQUEST STOP DETAILS", "ERROR");
                         done = true;
                     }
                 }

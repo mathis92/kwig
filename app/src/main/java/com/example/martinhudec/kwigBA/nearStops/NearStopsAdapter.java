@@ -1,7 +1,12 @@
 package com.example.martinhudec.kwigBA.nearStops;
 
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,9 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.martinhudec.kwigBA.R;
+import com.example.martinhudec.kwigBA.equip.Delay;
+import com.example.martinhudec.kwigBA.stopDetail.StopDetailsActivity;
+import com.example.martinhudec.kwigBA.vehicleDetail.VehicleDetailsActivity;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +34,7 @@ public class NearStopsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
     public NearStopsAdapter(Activity activity, List<StopDetailsWithRoutes> data) {
-        Log.d("mathis", "CONSTURCTOR");
+     //   Log.d("mathis", "CONSTURCTOR");
         inflator = LayoutInflater.from(activity);
         this.data = data;
         this.activity = activity;
@@ -44,7 +51,7 @@ public class NearStopsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 holder = new StopRoutesDetailViewHolder(inflator.inflate(R.layout.stop_details_custom_row, parent, false));
                 break;
         }
-        Log.d("mathis", "onCreateViewHolder");
+      //  Log.d("mathis", "onCreateViewHolder");
         return holder;
     }
 
@@ -75,23 +82,39 @@ public class NearStopsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return (position % 4) - 1;
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
-        Log.d("mathis", "on bind view holder " + position + " datasize " + data.size() );
+       // Log.d("mathis", "on bind view holder " + position + " datasize " + data.size() );
 
         switch (getItemViewType(position)) {
             case 0:
                 ((StopDetailViewHolder) holder).stopName.setText(data.get(getStopDataPostition(position)).stop.getStopName());
-
+                holder.itemView.setBackgroundColor(activity.getResources().getColor(R.color.stop));
+                holder.itemView.setElevation(17);
                 break;
             case 1:
                 if (data.get(getStopDataPostition(position)).routeDetailList.size() >= getRouteDataPosition(position) +1) {
                     ((StopRoutesDetailViewHolder) holder).headingTo.setText(data.get(getStopDataPostition(position)).routeDetailList.get(getRouteDataPosition(position)).getHeadingTo());
                     ((StopRoutesDetailViewHolder) holder).arrivalTime.setText(data.get(getStopDataPostition(position)).routeDetailList.get(getRouteDataPosition(position)).getArrivalTime());
-                    ((StopRoutesDetailViewHolder) holder).delay.setText(data.get(getStopDataPostition(position)).routeDetailList.get(getRouteDataPosition(position)).getDelay());
-                    ((StopRoutesDetailViewHolder) holder).vehicleId.setText(data.get(getStopDataPostition(position)).routeDetailList.get(getRouteDataPosition(position)).getVehicleId());
+                    ((StopRoutesDetailViewHolder) holder).delay.setText(data.get(getStopDataPostition(position)).routeDetailList.get(getRouteDataPosition(position)).getDelayHMS());
+                    ((StopRoutesDetailViewHolder) holder).vehicleId.setText(data.get(getStopDataPostition(position)).routeDetailList.get(getRouteDataPosition(position)).getVehicleShortName());
                     ((StopRoutesDetailViewHolder) holder).icon.setImageResource(data.get(getStopDataPostition(position)).routeDetailList.get(getRouteDataPosition(position)).getVehicleTypeIcon());
+
+                    if(!data.get(getStopDataPostition(position)).routeDetailList.get(getRouteDataPosition(position)).getDelay().equals("notStarted")) {
+                        if (Delay.getDelayLength(Integer.parseInt(data.get(getStopDataPostition(position)).routeDetailList.get(getRouteDataPosition(position)).getDelay())) > 0) {
+                            holder.itemView.setBackgroundColor(activity.getResources().getColor(R.color.vehicleDelay));
+                            holder.itemView.setElevation(10);
+                        } else {
+                            holder.itemView.setBackgroundColor(activity.getResources().getColor(R.color.vehicleOnTime));
+                        }
+                    }else {
+                        holder.itemView.setBackgroundColor(Color.WHITE);
+                        holder.itemView.setElevation(2);
+                    }
+
+
                 }
                 break;
         }
@@ -115,21 +138,31 @@ public class NearStopsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView arrivalTime;
         ImageView icon;
         TextView delay;
-
+        View itemView;
         public StopRoutesDetailViewHolder(View itemView) {
 
             super(itemView);
             headingTo = (TextView) itemView.findViewById(R.id.stop_custom_row_route_heading_to);
-            vehicleId = (TextView) itemView.findViewById(R.id.stop_custom_row_route_id);
+            vehicleId = (TextView) itemView.findViewById(R.id.stop_custom_row_route_short_name);
             icon = (ImageView) itemView.findViewById(R.id.stop_custom_row_route_icon);
             arrivalTime = (TextView) itemView.findViewById(R.id.stop_custom_row_route_arrival_time);
             delay = (TextView) itemView.findViewById(R.id.stop_custom_row_route_delay);
-            icon.setOnClickListener(this);
+            this.itemView = itemView;
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(activity, "Item clicked at " + getPosition(), Toast.LENGTH_SHORT).show();
+           // Toast.makeText(activity, "VEHICLE DATA " + getPosition(), Toast.LENGTH_SHORT).show();
+
+            Intent vehicleDetailsActivity = new Intent(activity, VehicleDetailsActivity.class);
+            Bundle b = new Bundle();
+            b.putSerializable("vehicle", data.get(getStopDataPostition(getPosition())).routeDetailList.get(getRouteDataPosition(getPosition()))); //Your id
+
+            vehicleDetailsActivity.putExtras(b); //Put your id to your next Intent
+            activity.startActivity(vehicleDetailsActivity);
+            activity.overridePendingTransition(R.anim.activity_animation, R.anim.activity_animation2);
+
         }
     }
 
@@ -142,17 +175,19 @@ public class NearStopsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
 
             stopName = (TextView) itemView.findViewById(R.id.near_stops_custom_row_stop_name);
-
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            //   Toast.makeText(activity, "Item clicked at " + getPosition(), Toast.LENGTH_SHORT).show();
-            //Intent intent = new Intent();
-            //intent.setAction(Intent.ACTION_SEARCH);
-            //intent.putExtra("string", SearchManager.QUERY);
-            // new FindStopActivity().getStopContent(data.get(getPosition()));
-            //((FindStopActivity)activity).getStopContent(data.get(getPosition()).getStopName());
+           //    Toast.makeText(activity, "STOP DATA", Toast.LENGTH_SHORT).show();
+            Intent stopDetailsActivity = new Intent(activity, StopDetailsActivity.class);
+            Bundle b = new Bundle();
+            b.putString("stopName", data.get(getStopDataPostition(getPosition())).stop.getStopName()); //Your id
+            stopDetailsActivity.putExtras(b); //Put your id to your next Intent
+            activity.startActivity(stopDetailsActivity);
+            activity.overridePendingTransition(R.anim.activity_animation, R.anim.activity_animation2);
+
         }
     }
 

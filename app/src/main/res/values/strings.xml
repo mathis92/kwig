@@ -22,6 +22,21 @@
     <string name="action_example">Example action</string>
     <string name="title_find_stop_activity">Find Stop Activity</string>
     <string name="search_hint">hint</string>
+    <string name="title_settings_activity">Settings</string>
+    <string name="not_started_yet">not started yet</string>
+    <string name="hours">hours</string>
+    <string name="mins">mins</string>
+    <string name="secs">secs</string>
+    <string name="delay_ahead">ahead</string>
+    <string name="delay">delay</string>
+    <string name="on_time">on time</string>
+    <string name="bus"> bus no. </string>
+    <string name="trolley_bus"> trolley bus no. </string>
+    <string name="tram"> tram no. </string>
+    <string name="settings">Settings</string>
+    <string name="about">About KWiG</string>
+    <string name="Slovak">Button</string>
+    <string name="English">English</string>
     <string-array name="tabs">
         <item>MAPS</item>
         <item>NEAR</item>

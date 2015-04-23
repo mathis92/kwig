@@ -19,6 +19,7 @@ public class OnCameraChangeListener implements GoogleMap.OnCameraChangeListener 
     GoogleMap mMap;
     InputStream stopsIS;
     ReadJsonStops jsonStops;
+    ReadJsonStops jsonStopsDetailed;
     ShowVehicles showVehicles = null;
     ShowStops showStops = null;
     MapsFragment mapsFragment;
@@ -26,9 +27,11 @@ public class OnCameraChangeListener implements GoogleMap.OnCameraChangeListener 
     List<MarkerDetails> currentlyDisplayedStops = null;
     HashMap<Marker, Object> markerObjectHashMap;
 
-    public OnCameraChangeListener(GoogleMap mMap, InputStream stopsIS,  List<MarkerDetails> currentlyDisplayedVehicles,List<MarkerDetails> currentlyDisplayedStops,HashMap<Marker, Object> markerObjectHashMap, MapsFragment mapsFragment) {
+    public OnCameraChangeListener(GoogleMap mMap, InputStream stopsIS, InputStream stopsDetailed,  List<MarkerDetails> currentlyDisplayedVehicles,List<MarkerDetails> currentlyDisplayedStops,HashMap<Marker, Object> markerObjectHashMap, MapsFragment mapsFragment) {
         this.jsonStops = new ReadJsonStops(stopsIS);
         jsonStops.execute();
+        this.jsonStopsDetailed = new ReadJsonStops(stopsDetailed);
+        jsonStopsDetailed.execute();
         this.mMap = mMap;
         this.stopsIS = stopsIS;
         this.mapsFragment = mapsFragment;
@@ -41,14 +44,14 @@ public class OnCameraChangeListener implements GoogleMap.OnCameraChangeListener 
 
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
-        Log.d("Zoom", "Zoom: " + cameraPosition.zoom);
+     //   Log.d("Zoom", "Zoom: " + cameraPosition.zoom);
         LatLngBounds bounds = mMap.getProjection().getVisibleRegion().latLngBounds;
-        Log.d("bounds", "Bounds " + bounds.getCenter() + " " + bounds.southwest + " " + bounds.northeast);
+     //   Log.d("bounds", "Bounds " + bounds.getCenter() + " " + bounds.southwest + " " + bounds.northeast);
         //   drawStops(cameraPosition.zoom);
         showVehicles = new ShowVehicles(mMap, currentlyDisplayedVehicles, markerObjectHashMap);
         showVehicles.execute(bounds, cameraPosition);
         mapsFragment.updatePositions();
-        showStops = new ShowStops(mMap, currentlyDisplayedStops,jsonStops, markerObjectHashMap);
+        showStops = new ShowStops(mMap, currentlyDisplayedStops,jsonStops, jsonStopsDetailed, markerObjectHashMap);
         showStops.execute(bounds, cameraPosition);
 /*
         if (showStops == null) {

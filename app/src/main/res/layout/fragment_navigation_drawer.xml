@@ -18,10 +18,13 @@
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:src="@drawable/icon" />
-        <TextView
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/options"/>
+            android:layout_height="match_parent"
+            android:divider="#727272" />
+
     </LinearLayout>
 
 </RelativeLayout>

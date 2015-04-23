@@ -13,7 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,79 +22,96 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.martinhudec.kwigBA.R;
 
+import com.example.martinhudec.kwigBA.equip.DividerItemDecoration;
 import com.example.martinhudec.kwigBA.map.Vehicle;
 import com.example.martinhudec.kwigBA.serverConnection.VolleySingleton;
 import com.example.martinhudec.kwigBA.stopDetail.RouteDetail;
-import com.example.martinhudec.kwigBA.stopDetail.StopDetailsAdapter;
-import com.google.android.gms.maps.model.LatLngBounds;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
 public class VehicleDetailsActivity extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener {
     Toolbar toolbar;
     Activity activity;
-    Vehicle vehicle;
+    Vehicle vehicle = null;
+    RouteDetail vehicleRouteDetail;
     SwipeRefreshLayout mSwipeRefreshVehicleDetail;
     CardView cardView;
     RecyclerView recyclerView;
     VehicleDetailsAdapter vehicleDetailsAdapter;
+    String vehicleType = null;
+    Integer vehicleLogo = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Bundle b = getIntent().getExtras();
-        vehicle = (Vehicle) b.getSerializable("vehicleObject");
-        String vehicleType = null;
-        Integer vehicleLogo = null;
-        switch (vehicle.getVehicleType()){
-            case 0: vehicleType = " tram no. ";
-                vehicleLogo = R.drawable.tram_icon_small_white;
-                break;
-            case 2: vehicleType = " trolley bus no. ";
-                vehicleLogo = R.drawable.bus_icon_small_white;
-                break;
-            case 3: vehicleType = " bus no. ";
-                vehicleLogo = R.drawable.bus_icon_small_white;
-                break;
-        }
-        this.setTitle(vehicleType + vehicle.getShortName());
 
+        vehicle = (Vehicle) b.getSerializable("vehicleObject");
+        if (vehicle == null) {
+            vehicleRouteDetail = (RouteDetail) b.getSerializable("vehicle");
+            requestVehicleDetails(vehicleRouteDetail.getVehicleId());
+            setActivityContent(vehicleRouteDetail.getVehicleType());
+            this.setTitle(vehicleType + vehicleRouteDetail.getVehicleShortName());
+        } else {
+            setActivityContent(vehicle.getVehicleType());
+            this.setTitle(vehicleType + vehicle.getShortName());
+        }
         setContentView(R.layout.vehicle_detail_activity);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setLogo(vehicleLogo);
+
         cardView = (CardView) findViewById(R.id.card_view);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView = (RecyclerView) findViewById(R.id.vehicle_detail_recycler_view);
         recyclerView.setLayoutManager(layoutManager);
-
+        recyclerView.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.abc_list_divider_mtrl_alpha)));
 
 
         activity = this;
         mSwipeRefreshVehicleDetail = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshVehicleDetail);
         mSwipeRefreshVehicleDetail.setOnRefreshListener(this);
 
-        showVehicleDetails();
+        if (vehicle != null) {
+            showVehicleDetails();
+        }
+    }
+
+    public void setActivityContent(int vehicleTypeInt) {
+        switch (vehicleTypeInt) {
+            case 0:
+                vehicleType = getResources().getString(R.string.tram);
+                vehicleLogo = R.drawable.transport_tram_84p_small;
+
+                break;
+            case 2:
+                vehicleType = getResources().getString(R.string.trolley_bus);
+                vehicleLogo = R.drawable.transport_trolleybus_512p_small;
+                break;
+            case 3:
+                vehicleType = getResources().getString(R.string.bus);
+                vehicleLogo = R.drawable.transport_bus_84p_small;
+                break;
+        }
     }
 
     public void showVehicleDetails() {
 
 
         if (mSwipeRefreshVehicleDetail.isRefreshing()) {
-            requestVehicles(vehicle);
+            requestVehicleDetails(vehicle.getId());
 
-        }else {
+        } else {
             vehicleDetailsAdapter = new VehicleDetailsAdapter(activity, vehicle);
             recyclerView.setAdapter(vehicleDetailsAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(activity));
@@ -131,8 +148,8 @@ public class VehicleDetailsActivity extends ActionBarActivity implements SwipeRe
         showVehicleDetails();
     }
 
-    public void requestVehicles(final Vehicle vehicle) {
-        Log.d("requestCurrentVehicle", vehicle.getId());
+    public void requestVehicleDetails(final String vehicleId) {
+      //  Log.d("requestCurrentVehicle", vehicleId);
         RequestQueue requestQueue = VolleySingleton.getsInstance().getmRequestQueue();
         String url = "http://bpbp.ctrgn.net/api/device";
 
@@ -140,7 +157,7 @@ public class VehicleDetailsActivity extends ActionBarActivity implements SwipeRe
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        //   Log.d("Response", response);
+                   //     Log.d("Response", response);
                         Vehicle currentVehicle = null;
                         try {
                             JSONArray jsonArray = new JSONArray(response);
@@ -158,10 +175,15 @@ public class VehicleDetailsActivity extends ActionBarActivity implements SwipeRe
                                 currentVehicle.nextStop = jsonArray.getJSONObject(i).getString("nextStop");
                                 currentVehicle.arrivalTime = jsonArray.getJSONObject(i).getString("arrivalTime");
                             }
-                            mSwipeRefreshVehicleDetail.setRefreshing(false);
-                            vehicleDetailsAdapter = new VehicleDetailsAdapter(activity, currentVehicle);
-                            recyclerView.setAdapter(vehicleDetailsAdapter);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+                            if (currentVehicle != null) {
+                                vehicle = currentVehicle;
+                                mSwipeRefreshVehicleDetail.setRefreshing(false);
+                                vehicleDetailsAdapter = new VehicleDetailsAdapter(activity, currentVehicle);
+                                recyclerView.setAdapter(vehicleDetailsAdapter);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+                            } else {
+                                Toast.makeText(activity,vehicleRouteDetail.getVehicleShortName() + " not started yet",Toast.LENGTH_SHORT).show();
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -179,7 +201,7 @@ public class VehicleDetailsActivity extends ActionBarActivity implements SwipeRe
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("requestContent", "currentVehicleDetail");
-                params.put("vehicleId", vehicle.getId());
+                params.put("vehicleId", vehicleId);
                 return params;
             }
         };

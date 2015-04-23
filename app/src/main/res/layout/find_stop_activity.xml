@@ -5,13 +5,28 @@
     android:orientation="vertical"
     tools:context="com.example.martinhudec.kwigBA.findStop.FindStopActivity">
 
-    <include android:id="@+id/app_bar"
-        layout="@layout/app_bar"/>
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/find_stop_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.github.rahatarmanahmed.cpv.CircularProgressView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/progress_view"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:cpv_indeterminate="true"
+            app:cpv_thickness="16px"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            app:cpv_animAutostart="true" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/find_stop_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
 
 </LinearLayout>
