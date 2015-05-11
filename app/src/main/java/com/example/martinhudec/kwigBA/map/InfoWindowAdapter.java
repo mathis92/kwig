@@ -51,7 +51,7 @@ public class InfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
             TextView vehicleHeadingTo = (TextView) view.findViewById(R.id.vehicleMarkerHeadingto);
 
             vehicleShortName.setText(vehicle.shortName);
-            vehicleHeadingTo.setText("Heading to -> " + vehicle.headingTo);
+            vehicleHeadingTo.setText(mainActivity.getString(R.string.heading_to) + vehicle.headingTo);
 
         }else {
         //    Log.d("STOP", ((Stop) markerObjectHashMap.get(marker)).stopName);

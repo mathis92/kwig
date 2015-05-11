@@ -109,7 +109,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     }
 
     public void startLocManager() {
-       // Log.d("MapsFragment", " starting Location Manager");
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 
@@ -135,7 +134,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     public Location getLastKnownLocation() {
         String provider = locationManager.getBestProvider(new Criteria(), true);
         Location loc = locationManager.getLastKnownLocation(provider);
-      //  Log.d("MapsFragment", loc.toString() + " provider " + provider);
         return loc;
     }
 

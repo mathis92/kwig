@@ -54,9 +54,9 @@ public class ShowVehicles extends AsyncTask<Object, List<Vehicle>, List<Vehicle>
 
     @Override
     protected List<Vehicle> doInBackground(Object... params) {
-    Log.d("FRAJERSKY","");
         if (((CameraPosition) params[1]).zoom >= 15) {
             requestVehicles((LatLngBounds) params[0]);
+            Log.d("bounds", ((LatLngBounds)params[0]).toString());
         } else {
             currentVehicleList = new ArrayList<>();
         }
@@ -119,15 +119,12 @@ public class ShowVehicles extends AsyncTask<Object, List<Vehicle>, List<Vehicle>
     }
 
     public void requestVehicles(final LatLngBounds bounds) {
-       // Log.d("requestVehicleDetails", bounds.toString());
         RequestQueue requestQueue = VolleySingleton.getsInstance().getmRequestQueue();
         String url = "http://bpbp.ctrgn.net/api/device";
-
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                     //   Log.d("Response", response);
                         currentVehicleList = new ArrayList<>();
                         try {
                             JSONArray jsonArray = new JSONArray(response);
@@ -136,13 +133,13 @@ public class ShowVehicles extends AsyncTask<Object, List<Vehicle>, List<Vehicle>
                                 currentVehicle.vehicleType = jsonArray.getJSONObject(i).getInt("vehicleType");
                                 switch (jsonArray.getJSONObject(i).getInt("vehicleType")) {
                                     case 0:
-                                        currentVehicle.vehicleTypeIcon = R.drawable.tram_icon_small;
+                                        currentVehicle.vehicleTypeIcon = R.drawable.transport_tram_map;
                                         break;
                                     case 2:
-                                        currentVehicle.vehicleTypeIcon = R.drawable.bus_icon_small;
+                                        currentVehicle.vehicleTypeIcon = R.drawable.transport_trolley_map;
                                         break;
                                     case 3:
-                                        currentVehicle.vehicleTypeIcon = R.drawable.bus_icon_small;
+                                        currentVehicle.vehicleTypeIcon = R.drawable.transport_bus_map;
                                         break;
                                 }
                                 currentVehicle.id = (jsonArray.getJSONObject(i).getString("id"));
@@ -168,7 +165,7 @@ public class ShowVehicles extends AsyncTask<Object, List<Vehicle>, List<Vehicle>
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
-                        Log.d("SHOW WEHICLES", "error");
+                        Log.d("SHOW Vehicles", "error");
                     }
                 }
         ) {
@@ -209,7 +206,7 @@ public class ShowVehicles extends AsyncTask<Object, List<Vehicle>, List<Vehicle>
                 marker.setPosition(new LatLng(lat, lng));
 
                 if (t < 1.0) {
-                    // Post again 16ms later.
+
                     handler.postDelayed(this, 16);
                 } else {
                     if (hideMarker) {

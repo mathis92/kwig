@@ -62,7 +62,7 @@ public class FindStopActivity extends ActionBarActivity {
         jsonStops = new ReadJsonStops(getResources().openRawResource(R.raw.stops_json_object), this);
         jsonStops.execute();
         // Enabling Back navigation on Action Bar icon
-        setTitle("Find current stop");
+        setTitle(getString(R.string.find_stop_detail_activity_title));
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);

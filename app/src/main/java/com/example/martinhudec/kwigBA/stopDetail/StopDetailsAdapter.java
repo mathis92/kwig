@@ -29,6 +29,7 @@ public class StopDetailsAdapter extends RecyclerView.Adapter<StopDetailsAdapter.
     private LayoutInflater inflator;
     List<RouteDetail> data = Collections.emptyList();
     private Activity activity;
+    int currentapiVersion = android.os.Build.VERSION.SDK_INT;
 
     public StopDetailsAdapter(Activity activity, List<RouteDetail> data) {
       //  Log.d("mathis", "CONSTURCTOR");
@@ -71,13 +72,17 @@ public class StopDetailsAdapter extends RecyclerView.Adapter<StopDetailsAdapter.
         if(!routeDetail.getDelay().equals("notStarted")) {
             if (Delay.getDelayLength(Integer.parseInt(routeDetail.getDelay())) > 0) {
                 holder.itemView.setBackgroundColor(activity.getResources().getColor(R.color.vehicleDelay));
-                holder.itemView.setElevation(10);
+                if (currentapiVersion >= Build.VERSION_CODES.LOLLIPOP) {
+                    holder.itemView.setElevation(10);
+                }
             } else {
                 holder.itemView.setBackgroundColor(activity.getResources().getColor(R.color.vehicleOnTime));
             }
         }else {
             holder.itemView.setBackgroundColor(Color.WHITE);
-            holder.itemView.setElevation(2);
+            if (currentapiVersion >= Build.VERSION_CODES.LOLLIPOP) {
+                holder.itemView.setElevation(2);
+            }
         }
     }
 

@@ -30,6 +30,7 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
     Vehicle vehicle;
     List<VehicleDetail> vehicleDetailList;
     private Context context;
+    int currentapiVersion = android.os.Build.VERSION.SDK_INT;
 
     public VehicleDetailsAdapter(Context context, Vehicle vehicle) {
        // Log.d("mathis", "CONSTURCTOR");
@@ -61,14 +62,18 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
         if(position == 3){
             if(!vehicleDetail.textData.equals("notStarted")) {
                 if(vehicleDetail.textData.equals("on time") || vehicleDetail.textData.contains("ahead") || vehicleDetail.textData.equals("na čas") || vehicleDetail.textData.contains("v predstihu")){
-                    holder.cardView.setBackgroundColor(context.getResources().getColor(R.color.vehicleOnTime));
+                    holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.vehicleOnTime));
                 } else {
-                    holder.cardView.setBackgroundColor(context.getResources().getColor(R.color.vehicleDelay));
-                    holder.itemView.setElevation(10);
+                    holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.vehicleDelay));
+                    if (currentapiVersion >= Build.VERSION_CODES.LOLLIPOP) {
+                        holder.itemView.setElevation(10);
+                    }
                 }
             }else {
                 holder.itemView.setBackgroundColor(Color.WHITE);
-                 holder.itemView.setElevation(2);
+                if (currentapiVersion >= Build.VERSION_CODES.LOLLIPOP) {
+                    holder.itemView.setElevation(2);
+                }
             }
         }
     }

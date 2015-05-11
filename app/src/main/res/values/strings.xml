@@ -37,6 +37,10 @@
     <string name="about">About KWiG</string>
     <string name="Slovak">Button</string>
     <string name="English">English</string>
+    <string name="stop_show_detail_button">Show detail</string>
+    <string name="vehicle_marker_show_detail_button">Show detail</string>
+    <string name="find_stop_detail_activity_title">Find current stop</string>
+    <string name="heading_to"><![CDATA["Heading to -> "]]></string>
     <string-array name="tabs">
         <item>MAPS</item>
         <item>NEAR</item>

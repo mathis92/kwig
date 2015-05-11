@@ -27,12 +27,16 @@
     <string name="secs">sec</string>
     <string name="delay_ahead">v predstihu</string>
     <string name="delay">mešká</string>
-    <string name="on_time">na čas</string>
+    <string name="on_time">ide včas</string>
     <string name="bus"> autobus č. </string>
     <string name="trolley_bus"> trolejbus č. </string>
     <string name="tram"> električka č. </string>
     <string name="settings">Nastavenia</string>
     <string name="about">O KWiG</string>
+    <string name="stop_show_detail_button">Zobraziť detail</string>
+    <string name="vehicle_marker_show_detail_button">Zobraziť detail</string>
+    <string name="find_stop_detail_activity_title">Vyhľadávanie zastávky</string>
+    <string name="heading_to"><![CDATA["Cieľová zastávka -> "]]></string>
     <string-array name="tabs">
         <item>MAPA</item>
         <item>BlÍZKO</item>
